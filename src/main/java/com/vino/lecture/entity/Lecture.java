@@ -14,6 +14,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.vino.scaffold.entity.base.BaseEntity;
 import com.vino.scaffold.shiro.entity.Role;
 @Entity
@@ -29,10 +31,12 @@ public class Lecture extends BaseEntity<Long>{
 	private String address;
 	@Column(name="description",length=2000)
 	private String description;
-	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern="dd/MM/yyyy HH:mm")//将String转换成date
+	//@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "time")
 	private Date time;
-	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern="dd/MM/yyyy HH:mm")
+	//@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "reserve_start_time")
 	private Date reserveStartTime;//开始预约时间
 	@Column(name = "max_people_num")

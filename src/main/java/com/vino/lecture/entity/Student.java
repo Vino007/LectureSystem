@@ -11,6 +11,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.vino.scaffold.entity.base.BaseEntity;
 import com.vino.scaffold.shiro.entity.User;
 @Entity
@@ -28,7 +30,7 @@ public class Student extends BaseEntity<Long> {
 	private String major;
 	@Column(name = "grade",length=20)
 	private String grade;
-	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	@Column(name = "birthday")
 	private Date birthday;
 	@Temporal(TemporalType.TIMESTAMP)

@@ -36,7 +36,7 @@ public class SidebarRankTag extends SimpleTagSupport{
 				return o1.getPriority().compareTo(o2.getPriority());
 			}
 		});
-		System.out.println(menuResources);
+		
 		JspWriter out=getJspContext().getOut();
 		for(Resource res : menuResources){
 			if(res.getUrl().equals("druid"))

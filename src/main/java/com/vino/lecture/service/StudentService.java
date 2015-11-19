@@ -12,10 +12,11 @@ import com.vino.scaffold.service.base.BaseService;
 
 
 public interface StudentService extends  BaseService<Student, Long>{
-	public void update();
+	
 	Student findByUsername(String username);
 	public void saveWithCheckDuplicate(Student Student) throws StudentDuplicateException;
 	public void saveWithCheckDuplicate(List<Student> Students)throws StudentDuplicateException;
 	Page<Student> findStudentByCondition(Map<String, Object> searchParams,
 			Pageable pageable);
+	void update(Student student);
 }

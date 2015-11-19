@@ -1,0 +1,128 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="exampleModalLabel">新增讲座</h4>
+			</div>
+			<form id="addForm" action="lecture/add" method="post">
+			<div class="modal-body">
+					<div class="form-group">
+						<label for="title" class="control-label"><font color="red">*</font>标题:</label> <input
+							type="text" class="form-control required " id="title"
+							name="title">
+					</div>
+					<div class="form-group">
+						<label for="lecturer" class="control-label"><font color="red">*</font>主讲人:</label> <input
+							type="text" class="form-control required " id="lecturer"
+							name="lecturer">
+					</div>
+					<div class="form-group">
+						<label for="time" class="control-label"><font color="red">*</font>时间:</label> <input
+							type="text" class="form-control required " id="time"
+							name="time">
+					</div>
+					<div class="form-group">
+						<label for="reserveStartTime" class="control-label"><font color="red">*</font>预约开始时间:</label> <input
+							type="text" class="form-control required" id="reserveStartTime"
+							name="reserveStartTime">
+					</div>
+					<div class="form-group">
+						<label for="address" class="control-label"><font color="red">*</font>地点:</label> <input
+							type="text" class="form-control required " id="address"
+							name="address">
+					</div>
+					<div class="form-group">
+						<label for="maxPeopleNum" class="control-label"><font color="red">*</font>允许人数:</label> <input
+							type="text" class="form-control required " id="maxPeopleNum"
+							name="maxPeopleNum">
+					</div>
+					
+					<div class="form-group">
+						<label for="description" class="control-label"><font color="red">*</font>详情介绍:</label> <textarea
+							type="" class="form-control required" id="description"
+							name="description"></textarea>
+					</div>
+						
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary" id="addSubmitBtn">提交</button>
+			</div>
+		</form>
+<script>
+/*modal框事件监听 详情：http://v3.bootcss.com/javascript/#modals-events */
+$('#addModal').on('shown.bs.modal', function(event) {	
+			$("#title").focus();
+			 $("#addForm").validate({
+				 submitHandler : function(form){
+			           	$.ajax({
+							async : false,
+							cache : false,
+							type : 'POST',
+							data :  $("#addForm").serialize(),
+						   // contentType : 'application/json',    //发送信息至服务器时内容编码类型
+							//dataType : "json",
+							url : "lecture/add",//请求的action路径  
+							error : function() {//请求失败处理函数  
+								alert('失败');
+							},
+							success : function(data) { //请求成功后处理函数。    
+								alert("success");
+								$('#addModal').on('hidden.bs.modal',function(event){//当modal框完全隐藏后再刷新页面content，要不然有bug
+									$("#content-wrapper").html(data);//刷新content页面
+								});
+							}
+						});
+			        }    
+			    });
+	});
+	
+//Datemask dd/mm/yyyy
+/* https://github.com/RobinHerbots/jquery.inputmask/blob/3.x/README_date.md */
+$("#time").inputmask("datetime");
+$("#reserveStartTime").inputmask("datetime");
+	/* js校验 */
+	/* 
+	$().ready(function() {
+ $("#signupForm").validate({
+        rules: {
+   firstname: "required",
+   email: {
+    required: true,
+    email: true
+   },
+   password: {
+    required: true,
+    minlength: 5
+   },
+   confirm_password: {
+    required: true,
+    minlength: 5,
+    equalTo: "#password"
+   }
+  },
+        messages: {
+   firstname: "请输入姓名",
+   email: {
+    required: "请输入Email地址",
+    email: "请输入正确的email地址"
+   },
+   password: {
+    required: "请输入密码",
+    minlength: jQuery.format("密码不能小于{0}个字 符")
+   },
+   confirm_password: {
+    required: "请输入确认密码",
+    minlength: "确认密码不能小于5个字符",
+    equalTo: "两次输入密码不一致不一致"
+   }
+  }
+    });
+});
+	
+	*/
+</script>

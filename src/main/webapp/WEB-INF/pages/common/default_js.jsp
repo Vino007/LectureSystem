@@ -25,7 +25,13 @@
 	src="<%=request.getContextPath()%>/resources/AdminLTE/plugins/iCheck/icheck.min.js"></script>
 <script
 	src="<%=request.getContextPath()%>/resources/AdminLTE/plugins/select2/select2.min.js"></script>
-
+<script
+	src="<%=request.getContextPath()%>/resources/AdminLTE/plugins/input-mask/jquery.inputmask.js"></script>
+	
+<script
+	src="<%=request.getContextPath()%>/resources/AdminLTE/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+	<script
+	src="<%=request.getContextPath()%>/resources/AdminLTE/plugins/input-mask/jquery.inputmask.extensions.js"></script>
 <script
 	src="<%=request.getContextPath()%>/resources/AdminLTE/plugins/daterangepicker/moment.js"></script>
 <script	src="<%=request.getContextPath()%>/resources/AdminLTE/plugins/daterangepicker/daterangepicker.js"></script>

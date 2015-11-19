@@ -33,7 +33,7 @@ public class LoginController extends BaseController{
 	        model.addAttribute("loginError", error);
 	        return "login";
 	    }
-	  
+	 /* 
 	  @RequestMapping(value = "/s/login")
 	    public String showStudentLoginForm(HttpServletRequest req, Model model) {
 	        String exceptionClassName = (String)req.getAttribute("shiroLoginFailure");	       
@@ -50,6 +50,6 @@ public class LoginController extends BaseController{
 	        }
 	        model.addAttribute("loginError", error);
 	        return "student/login";
-	    }
+	    }*/
 
 }

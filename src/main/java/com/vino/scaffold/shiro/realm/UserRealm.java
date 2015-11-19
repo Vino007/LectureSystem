@@ -87,7 +87,7 @@ public class UserRealm extends AuthorizingRealm {
         		student.setLastLoginTime(student.getLoginTime());
         	}
         	student.setLoginTime(new Date());
-        	studentService.update();
+        	studentService.update(student);
         	
         	authenticationInfo = new SimpleAuthenticationInfo(
                     student.getUsername(), //ÓÃ»§Ãû
