@@ -5,9 +5,10 @@
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-				<h4 class="modal-title" id="exampleModalLabel">上传学生</h4>
+				<h4 class="modal-title" id="exampleModalLabel">上传讲座</h4>
 			</div>
-			<form id="uploadForm" action="student/upload" method="post" enctype="multipart/form-data">
+			<form id="uploadAttendanceForm" action="attendance/upload" method="post" enctype="multipart/form-data">
+			<input type="text" name="lectureId" value="${lectureId}" hidden="true">
 			<div class="modal-body">
 					<div class="form-group">
 						<label for="file" class="control-label"><font color="red">*</font>上传文件:</label>
@@ -22,8 +23,8 @@
 			</form>
 			<script src="${pageContext.request.contextPath}/resources/js/jquery.form.js"></script>
 <script>
- 	$('#uploadModal').on('shown.bs.modal', function(event) { 
-				 $("#uploadForm").submit(function(event){
+ 	$('#uploadAttendanceModal').on('shown.bs.modal', function(event) { 
+				 $("#uploadAttendanceForm").submit(function(event){
 					 var file=$("#file").val();
 					 var fileType=file.substring(file.lastIndexOf(".")+1); 
 					

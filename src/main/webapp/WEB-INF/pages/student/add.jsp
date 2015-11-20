@@ -5,7 +5,7 @@
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-				<h4 class="modal-title" id="exampleModalLabel">新增讲座</h4>
+				<h4 class="modal-title" id="exampleModalLabel">新增学生</h4>
 			</div>
 			<form id="addForm" action="student/add" method="post">
 			<div class="modal-body">

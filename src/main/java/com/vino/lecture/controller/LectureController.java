@@ -70,6 +70,7 @@ public class LectureController extends BaseController {
 	@RequiresPermissions("lecture:create")
 	@RequestMapping(value="/prepareAdd",method=RequestMethod.GET)
 	public String prepareAddLecture(Model model ){
+		System.out.println("prepareAdd");
 		return "lecture/add";
 	}
 	@RequiresPermissions("lecture:create")
@@ -175,18 +176,17 @@ public class LectureController extends BaseController {
 	@RequiresPermissions("lecture:download")
 	@RequestMapping(value="/download",method=RequestMethod.POST)
 	public ResponseEntity<byte[]> download(@RequestParam(value="downloadIds[]",required=false)Long[] downloadIds,HttpSession session) throws IOException{
-		System.out.println(downloadIds);
 		String realPath=session.getServletContext().getRealPath("/WEB-INF/upload");
 		String fileName="lectureExport"+System.currentTimeMillis()+".xls";
 		lectureExcelService.saveToExcel(realPath+"\\"+fileName, downloadIds);
 		HttpHeaders headers = new HttpHeaders();    
 		headers.setContentDispositionFormData("attachment", fileName); 
-	
 	    headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);   
 	    FileInputStream fin=new FileInputStream(new File(realPath+"\\"+fileName));
-	    
 	    return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(new File(realPath+"\\"+fileName)),    
 				                                  headers, HttpStatus.CREATED);
 			
 	}
+	
+	
 }

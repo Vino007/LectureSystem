@@ -80,7 +80,14 @@ $('#addModal').on('shown.bs.modal', function(event) {
 			        }    
 			    });
 	});
-	
+$('#addModal').on('hidden.bs.modal', function(event){
+	$('#addModal .modal-content').empty();
+	console.log("hidden");
+});	
+$('#addModal').on('hidden.bs.modal', function(event){
+	console.log("hidde");
+	$(this).removeData("bs.modal");
+});	
 //Datemask dd/mm/yyyy
 /* https://github.com/RobinHerbots/jquery.inputmask/blob/3.x/README_date.md */
 $("#time").inputmask("datetime");

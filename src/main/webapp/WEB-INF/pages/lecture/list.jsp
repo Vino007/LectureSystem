@@ -106,6 +106,9 @@
 						<h3 class="box-title">讲座列表</h3>
 					</div>
 					<div class="btn-group">
+					
+				
+					
 						<!-- 注意，为了设置正确的内补（padding），务必在图标和文本之间添加一个空格。 -->
 						<form id="downloadForm" action="lecture/download" method="post" >
 						<shiro:hasPermission name="lecture:create">
@@ -182,6 +185,33 @@
 											class="btn  btn-xs btn-primary btn-flat " data-toggle="modal"
 											data-target="#detailModal" onclick='detailItem(${lecture.id})'>详情</button>
 									</shiro:hasPermission> 
+									<shiro:hasPermission name="attendance:upload">
+										<button  type="button"
+											class="btn  btn-primary btn-flat margin" data-toggle="modal"
+											data-target="#uploadAttendanceModal" onclick="uploadAttendanceItem(${lecture.id})">
+											<span class="fa fa-fw fa-cloud-upload" aria-hidden="true"></span> 上传考勤
+										</button>
+									</shiro:hasPermission>
+										<shiro:hasPermission name="attendance:downloadAttendance">
+										<form id="downloadAttendanceForm" action="attendance/downloadAttendance" method="get">
+										<input type="text" name="lectureId" value="${lecture.id}" hidden="true">
+										<button  type="submit"
+											class="btn  btn-primary btn-flat margin" 
+											 onclick="downloadAttendanceItem()">
+											<span class="fa fa-fw fa-cloud-download" aria-hidden="true"></span> 下载考勤
+										</button>
+										</form>
+									</shiro:hasPermission>
+									<shiro:hasPermission name="attendance:downloadReserve">
+										<form id="downloadReserveForm" action="attendance/downloadReserve" method="get">
+										<input type="text" name="lectureId" value="${lecture.id}" hidden="true">
+										<button  type="submit"
+											class="btn  btn-primary btn-flat margin" 
+											 onclick="downloadReserveItem()">
+											<span class="fa fa-fw fa-cloud-download" aria-hidden="true"></span> 下载预约清单
+										</button>
+										</form>
+									</shiro:hasPermission>
 									</td>
 							</tr>
 						</c:forEach>
@@ -199,7 +229,7 @@
 <!-- /.content -->
 
 <!-- 新增页面 modal框 -->
-<div class="modal fade" id="addModal" tabindex="-1" role="dialog"
+<div class="modal fade" id="modal" tabindex="-1" role="dialog"
 	aria-labelledby="exampleModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -210,35 +240,44 @@
 <!-- ./新增页面 modal框 -->
 
 <!-- 编辑页面 modal框  -->
-<div class="modal fade" id="updateModal" tabindex="-1" role="dialog"
+<!-- <div class="modal fade" id="updateModal" tabindex="-1" role="dialog"
 	aria-labelledby="exampleModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content"></div>
 	</div>
-</div>
+</div> -->
 
 <!-- 详情页面 modal框  -->
-<div class="modal fade" id="detailModal" tabindex="-1" role="dialog"
+<!-- <div class="modal fade" id="detailModal" tabindex="-1" role="dialog"
 	aria-labelledby="exampleModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content"></div>
 	</div>
-</div>
+</div> -->
 
 <!-- bind页面 modal框  -->
-<div class="modal fade" id="bindModal" tabindex="-1" role="dialog"
+<!-- <div class="modal fade" id="bindModal" tabindex="-1" role="dialog"
 	aria-labelledby="exampleModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content"></div>
 	</div>
-</div>
+</div> -->
 <!-- upload页面 modal框  -->
-<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog"
+<!-- <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog"
 	aria-labelledby="exampleModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content"></div>
 	</div>
-</div>
+</div> -->
+
+<!-- upload考勤页面 modal框  -->
+<!--  <div class="modal fade" id="uploadAttendanceModal" tabindex="-1" role="dialog"
+	aria-labelledby="exampleModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content"></div>
+	</div>
+</div>  -->
+
 
 <script>
 
@@ -258,6 +297,13 @@
 		
 	});
 	
+	/* $(document).ready(function(){
+		$("#testLoad").click(function(){
+			$('#addModal .modal-content').load('lecture/prepareAdd',function(){
+				$("#addModal").modal();
+			});
+		});
+	}); */
 
 	/* button监听事件 */
 	$(document).ready(function(){
@@ -284,8 +330,11 @@
 		});
 	});
 	function addItem(){
+		console.log("beforeAddItem");
+		console.log($('#addModal').length);
 		$("#addModal").on('show.bs.modal',function(event){
 			$('#addModal .modal-content').load('lecture/prepareAdd');
+			console.log("addItem");			
 		});
 	}
 	function updateItem(id){
@@ -293,7 +342,7 @@
 			$('#updateModal .modal-content').load('lecture/'+id);
 		});
 	}
-	f
+	
 	function detailItem(id){
 		$('#detailModal').on('show.bs.modal',function(event){
 			$('#detailModal .modal-content').load('lecture/detail/'+id);
@@ -309,6 +358,11 @@
 			$('#uploadModal .modal-content').load('lecture/prepareUpload');
 		});
 	}
+	 function uploadAttendanceItem(lectureId){
+		$('#uploadAttendanceModal').on('show.bs.modal',function(event){		
+			$('#uploadAttendanceModal .modal-content').load('attendance/prepareUpload?lectureId='+lectureId);
+		});
+	} 
 	/**
 	AJAX不能下载文件，用表单来实现
 	*/
@@ -325,7 +379,5 @@
 		$('#downloadForm').submit(function(){
 			
 		});
-	}
-	
-	
+	}		
 </script>

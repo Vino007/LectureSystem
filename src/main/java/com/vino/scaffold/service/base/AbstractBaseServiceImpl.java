@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.sun.org.apache.regexp.internal.recompile;
 import com.vino.scaffold.entity.Constants;
 import com.vino.scaffold.entity.base.BaseEntity;
 import com.vino.scaffold.repository.base.BaseRepository;
@@ -72,6 +73,9 @@ public abstract class AbstractBaseServiceImpl<T extends BaseEntity<PK>,PK extend
 			idList.add(id);
 		}
 		return baseRepository.findAll(idList);
+	}
+	public List<T> findAll(List<PK> ids){
+		return baseRepository.findAll(ids);
 	}
 	public BaseRepository<T, PK> getBaseRepository() {
 		return baseRepository;

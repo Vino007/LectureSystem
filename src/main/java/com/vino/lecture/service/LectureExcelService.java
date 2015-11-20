@@ -44,6 +44,9 @@ public class LectureExcelService {
 		File file=new File(path);
 		createExcel(new FileOutputStream(file), lectures);
 	}
+	public void saveAttendenceToExcel(String path,Long id){
+		//List<Student> students=l
+	}
 	public List<Lecture> getFromExcel(File file) throws BiffException, IOException{
 		return readExcel(file);
 	}

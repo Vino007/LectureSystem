@@ -15,5 +15,23 @@ public class Attendance  extends BaseEntity<Long>{
 	private long lectureId;	
 	@Column(name="is_attended")
 	private boolean isAttended;//ÊÇ·ñ³öÏ¯½²×ù
+	public long getStudentId() {
+		return studentId;
+	}
+	public void setStudentId(long studentId) {
+		this.studentId = studentId;
+	}
+	public long getLectureId() {
+		return lectureId;
+	}
+	public void setLectureId(long lectureId) {
+		this.lectureId = lectureId;
+	}
+	public boolean isAttended() {
+		return isAttended;
+	}
+	public void setAttended(boolean isAttended) {
+		this.isAttended = isAttended;
+	}
 
 }
