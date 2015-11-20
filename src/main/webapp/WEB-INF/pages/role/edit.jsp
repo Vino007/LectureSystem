@@ -43,7 +43,7 @@
 			</form>
 <script>
 /* 异步提交表单及更新content */
-$('#updateModal').on('shown.bs.modal', function(event) {
+$('#modal').on('shown.bs.modal', function(event) {
 
 	$('#updateForm').validate({
 		 submitHandler : function(form){
@@ -58,7 +58,7 @@ $('#updateModal').on('shown.bs.modal', function(event) {
 				},
 				success : function(data) { //请求成功后处理函数。    
 					alert("success");						
-					$('#updateModal').on('hidden.bs.modal',function(event){//当modal框完全隐藏后再刷新页面content，要不然有bug
+					$('#modal').on('hidden.bs.modal',function(event){//当modal框完全隐藏后再刷新页面content，要不然有bug
 						$("#content-wrapper").html(data);//刷新content页面
 					});
 				}

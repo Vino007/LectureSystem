@@ -50,14 +50,12 @@
 						</shiro:hasPermission>	
 						<shiro:hasPermission name="resource:view">
 						<button id="detailBtn" type="button"
-							class="btn  btn-primary btn-flat margin" data-toggle="modal"
-										data-target="#detailModal" onclick=''>
+							class="btn  btn-primary btn-flat margin"  onclick=''>
 							<span class="fa fa-fw fa-newspaper-o" aria-hidden="true"></span> 详情</button>	
 						</shiro:hasPermission>
 						<shiro:hasPermission name="resource:update">
 						<button id="updateBtn" type="button"
-							class="btn  btn-primary btn-flat margin" data-toggle="modal"
-										data-target="#updateModal" onclick=''>
+							class="btn  btn-primary btn-flat margin"  onclick=''>
 							<span class="fa fa-fw fa-pencil-square-o" aria-hidden="true"></span> 编辑</button>	
 							</shiro:hasPermission>	
 							
@@ -133,20 +131,14 @@
 <!-- ./新增页面 modal框 -->
 
 <!-- 编辑页面 modal框  -->
-<div class="modal fade" id="updateModal" tabindex="-1" role="dialog"
+<div class="modal fade" id="modal" tabindex="-1" role="dialog"
 	aria-labelledby="exampleModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content"></div>
 	</div>
 </div>
 
-<!-- 详情页面 modal框  -->
-<div class="modal fade" id="detailModal" tabindex="-1" role="dialog"
-	aria-labelledby="exampleModalLabel">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content"></div>
-	</div>
-</div>
+
 
 
 
@@ -261,15 +253,18 @@
 		});
 	});
 
-	function updateItem(id){
-		$('#updateModal').on('show.bs.modal',function(event){
-			$('#updateModal .modal-content').load('resource/'+id);
-		});
+	function modalLoadAndDisplay(url){	
+		$('#modal .modal-content').load(url,function(){
+			$("#modal").modal();
+		});		
 	}
+	
+	function updateItem(id){	
+		modalLoadAndDisplay('resource/'+id);
+	}
+	
 	function detailItem(id){
-		$('#detailModal').on('show.bs.modal',function(event){
-			$('#detailModal .modal-content').load('resource/detail/'+id)
-		});
+		modalLoadAndDisplay('resource/detail/'+id);
 	}
 	/* ztree */
 	/* 节点点击的时候回调函数*/

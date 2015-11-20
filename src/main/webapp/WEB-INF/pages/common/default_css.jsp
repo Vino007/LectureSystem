@@ -30,3 +30,5 @@
 	href="<%=request.getContextPath()%>/resources/AdminLTE/plugins/select2/select2.min.css">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/resources/AdminLTE/plugins/daterangepicker/daterangepicker-bs3.css">
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/app.css">

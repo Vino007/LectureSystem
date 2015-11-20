@@ -5,7 +5,7 @@ public class Tree {
 	private Long pId;
 	private String name;
 	private boolean checked=false;
-	private boolean open=true;
+	private boolean open=false;
 	
 	public boolean isOpen() {
 		return open;

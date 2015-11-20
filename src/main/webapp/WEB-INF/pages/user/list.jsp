@@ -91,8 +91,7 @@
 						<form id="downloadForm" action="user/download" method="post" >
 						<shiro:hasPermission name="user:create">
 							<button id="addBtn" type="button"
-								class="btn  btn-primary btn-flat margin" data-toggle="modal"
-								data-target="#addModal" onclick="addItem()">
+								class="btn  btn-primary btn-flat margin" onclick="addItem()">
 								<span class="fa fa-fw  fa-plus" aria-hidden="true"></span> 新增
 							</button>
 						</shiro:hasPermission>
@@ -104,8 +103,7 @@
 						</shiro:hasPermission>
 						<shiro:hasPermission name="user:upload">
 							<button id="uploadBtn" type="button"
-								class="btn  btn-primary btn-flat margin" data-toggle="modal"
-								data-target="#uploadModal" onclick="uploadItem()">
+								class="btn  btn-primary btn-flat margin" onclick="uploadItem()">
 								<span class="fa fa-fw fa-cloud-upload" aria-hidden="true"></span> 上传
 							</button>
 							</shiro:hasPermission>
@@ -119,7 +117,7 @@
 							<input id="downloadIds" type="hidden" name="downloadIds[]">
 							</form>
 					</div>
-					<table class="table table-hover">
+					<table class="table table-hover center">
 						<tr>
 							<th style="width: 10px"><label> <input id="allCheck"
 									type="checkbox" class="minimal" value="0">
@@ -130,8 +128,8 @@
 							<th>角色</th>
 							<th>创建时间</th>
 							<th>创建人</th>
-							<th style="width: 60px">状态</th>
-							<th style="width: 200px">操作</th>
+							<th >状态</th>
+							<th >操作</th>
 
 						</tr>
 						<c:forEach items="${users}" var="user" varStatus="status">
@@ -156,16 +154,13 @@
 
 								<td><shiro:hasPermission name="user:update">
 										<button id="updateBtn" type="button"
-											class="btn btn-xs btn-primary btn-flat " data-toggle="modal"
-											data-target="#updateModal" onclick='updateItem(${user.id})'>编辑</button>
+											class="btn btn-xs btn-primary btn-flat" onclick='updateItem(${user.id})'>编辑</button>
 									</shiro:hasPermission> <shiro:hasPermission name="user:view">
 										<button id="detailBtn" type="button"
-											class="btn  btn-xs btn-primary btn-flat " data-toggle="modal"
-											data-target="#detailModal" onclick='detailItem(${user.id})'>详情</button>
+											class="btn  btn-xs btn-primary btn-flat"  onclick='detailItem(${user.id})'>详情</button>
 									</shiro:hasPermission> <shiro:hasPermission name="user:bind">
 										<button id="bindRoleBtn" type="button"
-											class="btn  btn-xs btn-primary btn-flat " data-toggle="modal"
-											data-target="#bindModal" onclick='bindItem(${user.id})'>角色绑定</button>
+											class="btn  btn-xs btn-primary btn-flat"  onclick='bindItem(${user.id})'>角色绑定</button>
 									</shiro:hasPermission></td>
 							</tr>
 						</c:forEach>
@@ -183,7 +178,7 @@
 <!-- /.content -->
 
 <!-- 新增页面 modal框 -->
-<div class="modal fade" id="addModal" tabindex="-1" role="dialog"
+<div class="modal fade" id="modal" tabindex="-1" role="dialog"
 	aria-labelledby="exampleModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -193,44 +188,12 @@
 </div>
 <!-- ./新增页面 modal框 -->
 
-<!-- 编辑页面 modal框  -->
-<div class="modal fade" id="updateModal" tabindex="-1" role="dialog"
-	aria-labelledby="exampleModalLabel">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content"></div>
-	</div>
-</div>
-
-<!-- 详情页面 modal框  -->
-<div class="modal fade" id="detailModal" tabindex="-1" role="dialog"
-	aria-labelledby="exampleModalLabel">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content"></div>
-	</div>
-</div>
-
-<!-- bind页面 modal框  -->
-<div class="modal fade" id="bindModal" tabindex="-1" role="dialog"
-	aria-labelledby="exampleModalLabel">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content"></div>
-	</div>
-</div>
-<!-- upload页面 modal框  -->
-<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog"
-	aria-labelledby="exampleModalLabel">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content"></div>
-	</div>
-</div>
-
 <script>
 
 	//Date range picker
 	$('#reservation').daterangepicker();
 	//Date range picker with time picker
-	$('#reservationtime').daterangepicker({timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A'});
-	
+	$('#reservationtime').daterangepicker({timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A'});	
 	/* icheck 初始化 详情：https://github.com/fronteed/icheck */
    	iCheckInit();
  	/* iCheck事件监听 详情：https://github.com/fronteed/icheck */
@@ -238,17 +201,13 @@
 	$(document).ready(function(){
 		$('#allCheck').on('ifToggled', function(event){		
 			$('input[class*="deleteCheckbox"]').iCheck('toggle');			
-		});
-		
+		});		
 	});
-	
-
 	/* button监听事件 */
 	$(document).ready(function(){
 		$("#deleteBtn").click(function(){
 			deleteItems("input[class*='deleteCheckbox']","user/delete");
-		});
-		
+		});	
 	});		
 	$("#searchBtn").click(function() {
 		$('#pageNumber').val(1);
@@ -262,14 +221,40 @@
 				alert('失败');
 			},
 			success : function(data) { //请求成功后处理函数。    
-				$("#content-wrapper").html(data);//刷新content页面
-			
+				$("#content-wrapper").html(data);//刷新content页面		
 			}
 		});
 	});
+	
+	function modalLoadAndDisplay(url){	
+		$('#modal .modal-content').load(url,function(){
+			$("#modal").modal();
+		});		
+	}
 	function addItem(){
-		$("#addModal").on('show.bs.modal',function(event){
-			$('#addModal .modal-content').load('user/prepareAdd');
+		modalLoadAndDisplay('user/prepareAdd');
+	}
+	
+	function updateItem(id){	
+		modalLoadAndDisplay('user/'+id);
+	}
+	
+	function detailItem(id){
+	
+		modalLoadAndDisplay('user/detail/'+id);
+	}
+	
+	function uploadItem(){	
+		modalLoadAndDisplay('user/prepareUpload');
+	}
+	function bindItem(id){
+		modalLoadAndDisplay('user/prepareBind/'+id);
+		
+	}
+	
+	/* function addItem(){
+		$("#modal").on('show.bs.modal',function(event){
+			$('#modal .modal-content').load('user/prepareAdd');
 		});
 	}
 	function updateItem(id){
@@ -292,7 +277,7 @@
 		$('#uploadModal').on('show.bs.modal',function(event){
 			$('#uploadModal .modal-content').load('user/prepareUpload');
 		});
-	}
+	} */
 	/**
 	AJAX不能下载文件，用表单来实现
 	*/

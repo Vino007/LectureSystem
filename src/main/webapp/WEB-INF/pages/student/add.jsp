@@ -1,43 +1,43 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"
-					aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				<h4 class="modal-title" id="exampleModalLabel">新增学生</h4>
-			</div>
-			<form id="addForm" action="student/add" method="post">
-			<div class="modal-body">
-					<div class="form-group">
-						<label for="username" class="control-label"><font color="red">*</font>学号:</label> <input
-							type="text" class="form-control required " id="username"
-							name="username">
-					</div>
-					<div class="form-group">
-						<label for="name" class="control-label"><font color="red">*</font>姓名:</label> <input
-							type="text" class="form-control required " id="name"
-							name="name">
-					</div>
-					<div class="form-group">
-						<label for="major" class="control-label"><font color="red">*</font>专业:</label> <input
-							type="text" class="form-control required " id="major"
-							name="major">
-					</div>				
-					<div class="form-group">
-						<label for="grade" class="control-label"><font color="red">*</font>年级:</label> <input
-							type="text" class="form-control required " id="grade"
-							name="grade">
-					</div>									
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				<button type="submit" class="btn btn-primary" id="addSubmitBtn">提交</button>
-			</div>
-		</form>
+	<button type="button" class="close" data-dismiss="modal"
+		aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	<h4 class="modal-title" id="exampleModalLabel">新增学生</h4>
+</div>
+<form id="addForm" action="student/add" method="post">
+	<div class="modal-body">
+		<div class="form-group">
+			<label for="username" class="control-label"><font color="red">*</font>学号:</label>
+			<input type="text" class="form-control required " id="username"
+				name="username">
+		</div>
+		<div class="form-group">
+			<label for="name" class="control-label"><font color="red">*</font>姓名:</label>
+			<input type="text" class="form-control required " id="name"
+				name="name">
+		</div>
+		<div class="form-group">
+			<label for="major" class="control-label"><font color="red">*</font>专业:</label>
+			<input type="text" class="form-control required " id="major"
+				name="major">
+		</div>
+		<div class="form-group">
+			<label for="grade" class="control-label"><font color="red">*</font>年级:</label>
+			<input type="text" class="form-control required " id="grade"
+				name="grade">
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		<button type="submit" class="btn btn-primary" id="addSubmitBtn">提交</button>
+	</div>
+</form>
 <script>
 /*modal框事件监听 详情：http://v3.bootcss.com/javascript/#modals-events */
-$('#addModal').on('shown.bs.modal', function(event) {	
+$('#modal').on('shown.bs.modal', function(event) {	
 			$("#title").focus();
 			 $("#addForm").validate({
 				 submitHandler : function(form){
@@ -54,7 +54,7 @@ $('#addModal').on('shown.bs.modal', function(event) {
 							},
 							success : function(data) { //请求成功后处理函数。    
 								alert("success");
-								$('#addModal').on('hidden.bs.modal',function(event){//当modal框完全隐藏后再刷新页面content，要不然有bug
+								$('#modal').on('hidden.bs.modal',function(event){//当modal框完全隐藏后再刷新页面content，要不然有bug
 									$("#content-wrapper").html(data);//刷新content页面
 								});
 							}

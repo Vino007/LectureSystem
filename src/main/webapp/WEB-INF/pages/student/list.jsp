@@ -11,7 +11,7 @@
 	</h1>
 	<ol class="breadcrumb">
 		<li><a href="#"><i class="fa fa-dashboard"></i>系统管理</a></li>
-		
+
 		<li class="active">学生管理</li>
 	</ol>
 </section>
@@ -41,32 +41,30 @@
 											</div>
 											<div class="form-group col-md-2">
 												<label for="nameLabel">姓名:</label> <input type="text"
-													class="form-control" id="nameLabel"
-													name="search_name"
+													class="form-control" id="nameLabel" name="search_name"
 													value="${searchParamsMap.name }">
 											</div>
 											<div class="form-group col-md-2">
 												<label for="majorLabel">专业:</label> <input type="text"
-													class="form-control" id="majorLabel"
-													name="search_major"
+													class="form-control" id="majorLabel" name="search_major"
 													value="${searchParamsMap.major }">
 											</div>
 											<div class="form-group col-md-2">
 												<label for="gradeLabel">年级:</label> <input type="text"
-													class="form-control" id="gradeLabel"
-													name="search_grade"
+													class="form-control" id="gradeLabel" name="search_grade"
 													value="${searchParamsMap.grade }">
 											</div>
-											
-											
+
+
 											<div class="form-group  col-md-3">
 												<label>创建时间:</label>
 												<div class="input-group">
 													<div class="input-group-addon">
 														<i class="fa fa-calendar"></i>
 													</div>
-													<input type="text" class="form-control pull-right dateRangePicker"
-														 name="search_createTimeRange"
+													<input type="text"
+														class="form-control pull-right dateRangePicker"
+														name="search_createTimeRange"
 														value="${searchParamsMap.createTimeRange}">
 												</div>
 												<!-- /.input group -->
@@ -101,38 +99,38 @@
 					</div>
 					<div class="btn-group">
 						<!-- 注意，为了设置正确的内补（padding），务必在图标和文本之间添加一个空格。 -->
-						<form id="downloadForm" action="student/download" method="post" >
-						<shiro:hasPermission name="student:create">
-							<button id="addBtn" type="button"
-								class="btn  btn-primary btn-flat margin" data-toggle="modal"
-								data-target="#addModal" onclick="addItem()">
-								<span class="fa fa-fw  fa-plus" aria-hidden="true"></span> 新增
-							</button>
-						</shiro:hasPermission>
-						<shiro:hasPermission name="student:delete">
-							<button id="deleteBtn" type="button"
-								class="btn  btn-danger btn-flat margin">
-								<span class="fa fa-fw fa-remove" aria-hidden="true"></span> 删除
-							</button>
-						</shiro:hasPermission>
-						<shiro:hasPermission name="student:upload">
-							<button id="uploadBtn" type="button"
-								class="btn  btn-primary btn-flat margin" data-toggle="modal"
-								data-target="#uploadModal" onclick="uploadItem()">
-								<span class="fa fa-fw fa-cloud-upload" aria-hidden="true"></span> 上传
-							</button>
+						<form id="downloadForm" action="student/download" method="post">
+							<shiro:hasPermission name="student:create">
+								<button id="addBtn" type="button"
+									class="btn  btn-primary btn-flat margin" onclick="addItem()">
+									<span class="fa fa-fw  fa-plus" aria-hidden="true"></span> 新增
+								</button>
+							</shiro:hasPermission>
+							<shiro:hasPermission name="student:delete">
+								<button id="deleteBtn" type="button"
+									class="btn  btn-danger btn-flat margin">
+									<span class="fa fa-fw fa-remove" aria-hidden="true"></span> 删除
+								</button>
+							</shiro:hasPermission>
+							<shiro:hasPermission name="student:upload">
+								<button id="uploadBtn" type="button"
+									class="btn  btn-primary btn-flat margin" onclick="uploadItem()">
+									<span class="fa fa-fw fa-cloud-upload" aria-hidden="true"></span>
+									上传
+								</button>
 							</shiro:hasPermission>
 							<shiro:hasPermission name="student:download">
-							<button id="downloadBtn" type="submit"
-								class="btn  btn-primary btn-flat margin" 
-								 onclick="downloadItem()">
-								<span class="fa fa-fw fa-cloud-download" aria-hidden="true"></span> 下载
-							</button>
+								<button id="downloadBtn" type="submit"
+									class="btn  btn-primary btn-flat margin"
+									onclick="downloadItem()">
+									<span class="fa fa-fw fa-cloud-download" aria-hidden="true"></span>
+									下载
+								</button>
 							</shiro:hasPermission>
 							<input id="downloadIds" type="hidden" name="downloadIds[]">
-							</form>
+						</form>
 					</div>
-					<table class="table table-hover">
+					<table class="table table-hover center">
 						<tr>
 							<th style="width: 10px"><label> <input id="allCheck"
 									type="checkbox" class="minimal" value="0">
@@ -141,10 +139,10 @@
 							<th>学号</th>
 							<th>姓名</th>
 							<th>专业</th>
-							<th>年级</th>						
+							<th>年级</th>
 							<th>创建时间</th>
-							<th>创建人</th>					
-							<th style="width: 200px">操作</th>
+							<th>创建人</th>
+							<th >操作</th>
 
 						</tr>
 						<c:forEach items="${students}" var="student" varStatus="status">
@@ -159,18 +157,16 @@
 								<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss"
 										value="${student.createTime}" /></td>
 								<td>${student.creatorName}</td>
-								
+
 								<td><shiro:hasPermission name="student:update">
 										<button id="updateBtn" type="button"
-											class="btn btn-xs btn-primary btn-flat " data-toggle="modal"
-											data-target="#updateModal" onclick='updateItem(${student.id})'>编辑</button>
-									</shiro:hasPermission> 
-									<shiro:hasPermission name="student:view">
+											class="btn btn-xs btn-primary btn-flat"
+											onclick='updateItem(${student.id})'>编辑</button>
+									</shiro:hasPermission> <shiro:hasPermission name="student:view">
 										<button id="detailBtn" type="button"
-											class="btn  btn-xs btn-primary btn-flat " data-toggle="modal"
-											data-target="#detailModal" onclick='detailItem(${student.id})'>详情</button>
-									</shiro:hasPermission> 
-									</td>
+											class="btn  btn-xs btn-primary btn-flat"
+											onclick='detailItem(${student.id})'>详情</button>
+									</shiro:hasPermission></td>
 							</tr>
 						</c:forEach>
 					</table>
@@ -186,42 +182,8 @@
 </section>
 <!-- /.content -->
 
-<!-- 新增页面 modal框 -->
-<div class="modal fade" id="addModal" tabindex="-1" role="dialog"
-	aria-labelledby="exampleModalLabel">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			
-		</div>
-	</div>
-</div>
-<!-- ./新增页面 modal框 -->
-
-<!-- 编辑页面 modal框  -->
-<div class="modal fade" id="updateModal" tabindex="-1" role="dialog"
-	aria-labelledby="exampleModalLabel">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content"></div>
-	</div>
-</div>
-
-<!-- 详情页面 modal框  -->
-<div class="modal fade" id="detailModal" tabindex="-1" role="dialog"
-	aria-labelledby="exampleModalLabel">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content"></div>
-	</div>
-</div>
-
-<!-- bind页面 modal框  -->
-<div class="modal fade" id="bindModal" tabindex="-1" role="dialog"
-	aria-labelledby="exampleModalLabel">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content"></div>
-	</div>
-</div>
-<!-- upload页面 modal框  -->
-<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog"
+<!--  modal框 -->
+<div class="modal fade" id="modal" tabindex="-1" role="dialog"
 	aria-labelledby="exampleModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content"></div>
@@ -229,7 +191,6 @@
 </div>
 
 <script>
-
 	//Date range picker
 	$('.dateRangePicker').daterangepicker();
 	//Date range picker with time picker
@@ -245,8 +206,6 @@
 		});
 		
 	});
-	
-
 	/* button监听事件 */
 	$(document).ready(function(){
 		$("#deleteBtn").click(function(){
@@ -271,31 +230,27 @@
 			}
 		});
 	});
+	
+	function modalLoadAndDisplay(url){	
+		$('#modal .modal-content').load(url,function(){
+			$("#modal").modal();
+		});		
+	}
 	function addItem(){
-		$("#addModal").on('show.bs.modal',function(event){
-			$('#addModal .modal-content').load('student/prepareAdd');
-		});
+		modalLoadAndDisplay('student/prepareAdd');
 	}
-	function updateItem(id){
-		$('#updateModal').on('show.bs.modal',function(event){
-			$('#updateModal .modal-content').load('student/'+id);
-		});
+	
+	function updateItem(id){	
+		modalLoadAndDisplay('student/'+id);
 	}
-	f
+	
 	function detailItem(id){
-		$('#detailModal').on('show.bs.modal',function(event){
-			$('#detailModal .modal-content').load('student/detail/'+id);
-		});
+	
+		modalLoadAndDisplay('student/detail/'+id);
 	}
-	function bindItem(id){
-		$('#bindModal').on('show.bs.modal',function(event){
-			$('#bindModal .modal-content').load('student/prepareBind/'+id);
-		});
-	}
-	function uploadItem(){
-		$('#uploadModal').on('show.bs.modal',function(event){
-			$('#uploadModal .modal-content').load('student/prepareUpload');
-		});
+	
+	function uploadItem(){	
+		modalLoadAndDisplay('student/prepareUpload');
 	}
 	/**
 	AJAX不能下载文件，用表单来实现
