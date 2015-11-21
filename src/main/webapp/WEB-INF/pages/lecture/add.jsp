@@ -42,7 +42,7 @@
 					
 					<div class="form-group">
 						<label for="description" class="control-label"><font color="red">*</font>详情介绍:</label> <textarea
-							type="" class="form-control required" id="description"
+							class="form-control required" id="description"
 							name="description"></textarea>
 					</div>
 						

@@ -74,8 +74,8 @@ public class StudentServiceImpl extends AbstractBaseServiceImpl<Student, Long> i
 			passwordHelper.encryptStudentPassword(student);
 			student.setCreateTime(new Date());
 			student.setCreatorName(getCurrentUser().getUsername());
-			studentRepository.save(student);
 		}
+		studentRepository.save(students);
 
 	}
 

@@ -50,7 +50,6 @@ public class LectureController extends BaseController {
 		Page<Lecture> lecturePage=lectureService.findAll(buildPageRequest(pageNumber));
 		model.addAttribute("lectures", lecturePage.getContent());
 		model.addAttribute("page", lecturePage);
-		//model.addAttribute("searchParams", "");
 		return "lecture/list";
 	}
 	@RequiresPermissions("lecture:view")
@@ -58,19 +57,16 @@ public class LectureController extends BaseController {
 	public String getLecturesByCondition(Model model,Lecture lecture,@RequestParam(value="pageNumber",defaultValue="1")int pageNumber,ServletRequest request){
 		Map<String,Object> searchParams=Servlets.getParametersStartingWith(request, "search_");
 		log.info("搜索参数="+searchParams.toString());				
-		Page<Lecture> lecturePage=lectureService.findLectureByCondition(searchParams, buildPageRequest(pageNumber));
+		Page<Lecture> lecturePage=lectureService.findLectureByCondition(searchParams, buildPageRequest(1));
 		model.addAttribute("lectures",lecturePage.getContent());
 		model.addAttribute("page", lecturePage);	
 		model.addAttribute("searchParams", Servlets.encodeParameterStringWithPrefix(searchParams, "search_"));
-		System.out.println("返回到页面的搜索参数"+Servlets.encodeParameterStringWithPrefix(searchParams, "search_"));
-		System.out.println(searchParams.toString());
 		model.addAttribute("searchParamsMap", searchParams);
 		return "lecture/list";
 	}
 	@RequiresPermissions("lecture:create")
 	@RequestMapping(value="/prepareAdd",method=RequestMethod.GET)
 	public String prepareAddLecture(Model model ){
-		System.out.println("prepareAdd");
 		return "lecture/add";
 	}
 	@RequiresPermissions("lecture:create")

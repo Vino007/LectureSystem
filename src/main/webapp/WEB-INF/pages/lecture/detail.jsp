@@ -14,15 +14,16 @@
 				<table  class="table table-striped">
 				<tr><td>标题:</td><td>${lecture.title}	</td></tr>
 				<tr><td>主讲人:</td><td>${lecture.lecturer}</td></tr>
-				<tr><td>时间:</td><td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss"
+				<tr><td>时间:</td><td><fmt:formatDate pattern="yyyy-MM-dd HH:mm"
 										value="${lecture.time}"/></td></tr>
 				<tr><td>地点:</td><td>${lecture.address}</td></tr>
 				<tr><td>允许人数:</td><td>${lecture.maxPeopleNum}	</td></tr>
 				<tr><td>当前人数:</td><td>${lecture.currentPeopleNum}	</td></tr>
-				<tr><td>预约开始时间:</td><td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss"
+				<tr><td>预约开始时间:</td><td><fmt:formatDate pattern="yyyy-MM-dd HH:mm"
 										value="${lecture.reserveStartTime}"/></td></tr>
 				<tr><td>详情描述:</td><td>${lecture.description}	</td></tr>
-				<tr><td>创建时间:</td><td>${lecture.createTime}	</td></tr>
+				<tr><td>创建时间:</td><td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss"
+										value="${lecture.createTime}"/></td></tr>
 				<tr><td>创建人:</td><td>${lecture.creatorName}	</td></tr>
 				</table>																										
 			</div>

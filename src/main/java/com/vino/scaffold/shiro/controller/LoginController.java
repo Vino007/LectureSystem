@@ -33,23 +33,6 @@ public class LoginController extends BaseController{
 	        model.addAttribute("loginError", error);
 	        return "login";
 	    }
-	 /* 
-	  @RequestMapping(value = "/s/login")
-	    public String showStudentLoginForm(HttpServletRequest req, Model model) {
-	        String exceptionClassName = (String)req.getAttribute("shiroLoginFailure");	       
-	        String error = null;
-	        if(UnknownAccountException.class.getName().equals(exceptionClassName)) {
-	            error = "用户名/密码错误";
-	        } else if(IncorrectCredentialsException.class.getName().equals(exceptionClassName)) {
-	            error = "用户名/密码错误";
-	        }else if(LockedAccountException.class.getName().equals(exceptionClassName)){
-	        	error = "账户被锁定，请联系管理员";
-	        	
-	        }else if(exceptionClassName != null) {
-	            error = "其他错误：" + exceptionClassName;
-	        }
-	        model.addAttribute("loginError", error);
-	        return "student/login";
-	    }*/
+	
 
 }

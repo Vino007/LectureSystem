@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<!-- <div id="requestResult" class="alert alert-danger"></div> -->
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal"
 		aria-label="Close">
@@ -52,7 +53,8 @@ $('#modal').on('shown.bs.modal', function(event) {
 							error : function() {//请求失败处理函数  
 								alert('失败');
 							},
-							success : function(data) { //请求成功后处理函数。    
+							success : function(data) { //请求成功后处理函数。
+								
 								alert("success");
 								$('#modal').on('hidden.bs.modal',function(event){//当modal框完全隐藏后再刷新页面content，要不然有bug
 									$("#content-wrapper").html(data);//刷新content页面

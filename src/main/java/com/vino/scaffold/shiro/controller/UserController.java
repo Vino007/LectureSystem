@@ -57,7 +57,6 @@ public class UserController extends BaseController{
 		Page<User> userPage=userService.findAll(buildPageRequest(pageNumber));
 		model.addAttribute("users", userPage.getContent());
 		model.addAttribute("page", userPage);
-		//model.addAttribute("searchParams", "");
 		return "user/list";
 	}
 	@RequiresPermissions("user:view")
@@ -69,8 +68,6 @@ public class UserController extends BaseController{
 		model.addAttribute("users",userPage.getContent());
 		model.addAttribute("page", userPage);	
 		model.addAttribute("searchParams", Servlets.encodeParameterStringWithPrefix(searchParams, "search_"));
-		System.out.println("返回到页面的搜索参数"+Servlets.encodeParameterStringWithPrefix(searchParams, "search_"));
-		System.out.println(searchParams.toString());
 		model.addAttribute("searchParamsMap", searchParams);
 		return "user/list";
 	}
@@ -164,7 +161,6 @@ public class UserController extends BaseController{
 	@RequiresPermissions("user:view")
 	@RequestMapping(value="/profile",method=RequestMethod.GET)
 	public  String getProfile(Model model,HttpSession session){
-		/*model.addAttribute("currentUser",session.getAttribute(Constants.CURRENT_USER));*/
 		return "user/profile";
 		
 	}

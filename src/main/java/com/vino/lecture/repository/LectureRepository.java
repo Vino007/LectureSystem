@@ -9,6 +9,5 @@ import com.vino.scaffold.shiro.entity.Resource;
 import com.vino.scaffold.shiro.entity.User;
 
 public interface LectureRepository extends BaseRepository<Lecture, Long>{
-	//public Lecture findByUsername(String username);
-	//public Page<Lecture> getLecturesByCondition(Lecture lecture,Pageable pageable);
+	
 }

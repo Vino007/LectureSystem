@@ -12,9 +12,6 @@ import com.vino.scaffold.shiro.entity.User;
 
 public interface LectureService extends  BaseService<Lecture, Long>{
 	void update(Lecture Lecture);
-
-	void saveWithCheckDuplicate(Lecture Lecture,User user) throws LectureDuplicateException;
-
 	Page<Lecture> findLectureByCondition(Map<String, Object> searchParams,
 			Pageable pageable);
 	//Lecture findByName(String name);

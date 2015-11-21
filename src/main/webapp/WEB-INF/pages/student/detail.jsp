@@ -17,8 +17,10 @@
 				<tr><td>专业:</td><td>${student.major}</td></tr>
 				<tr><td>年级:</td><td>${student.grade}</td></tr>
 				<tr><td>性别:</td><td>${student.gender}	</td></tr>
-				<tr><td>生日:</td><td>${student.birthday}	</td></tr>
-				<tr><td>创建时间:</td><td>${student.createTime}	</td></tr>
+				<tr><td>生日:</td><td><fmt:formatDate pattern="yyyy-MM-dd"
+										value="${student.birthday}"/>	</td></tr>
+				<tr><td>创建时间:</td><td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss"
+										value="${student.createTime}"/></td></tr>
 				<tr><td>创建人:</td><td>${student.creatorName}	</td></tr>
 				</table>																										
 			</div>

@@ -31,14 +31,6 @@ public class LectureServiceImpl extends AbstractBaseServiceImpl<Lecture, Long>  
 	@Autowired
 	private LectureRepository lectureRepository;
 	@Override
-	public void saveWithCheckDuplicate(Lecture Lecture, User user) throws LectureDuplicateException {
-		
-		
-	}
-
-	
-
-	@Override
 	public void save(Lecture obj) {
 		User curUser=getCurrentUser();
 		obj.setCreatorName(curUser.getUsername());
@@ -46,9 +38,6 @@ public class LectureServiceImpl extends AbstractBaseServiceImpl<Lecture, Long>  
 		obj.setCreatorId(curUser.getId());
 		super.save(obj);
 	}
-
-
-
 	@Override
 	public void save(List<Lecture> objs) {
 		User curUser=getCurrentUser();
@@ -99,7 +88,6 @@ public class LectureServiceImpl extends AbstractBaseServiceImpl<Lecture, Long>  
 					String lectureTimeStartStr=lectureTimeRange.split(" - ")[0]+":00:00:00";
 					String lectureTimeEndStr=lectureTimeRange.split(" - ")[1]+":23:59:59";
 					SimpleDateFormat format=new SimpleDateFormat("MM/dd/yyyy:hh:mm:ss");
-					//System.out.println(createTimeStartStr);
 					try {
 						Date lectureTimeStart = format.parse(lectureTimeStartStr);
 						Date lectureTimeEnd=format.parse(lectureTimeEndStr);
@@ -120,7 +108,6 @@ public class LectureServiceImpl extends AbstractBaseServiceImpl<Lecture, Long>  
 					String createTimeStartStr=createTimeRange.split(" - ")[0]+":00:00:00";
 					String createTimeEndStr=createTimeRange.split(" - ")[1]+":23:59:59";
 					SimpleDateFormat format=new SimpleDateFormat("MM/dd/yyyy:hh:mm:ss");
-					//System.out.println(createTimeStartStr);
 					try {
 						Date createTimeStart = format.parse(createTimeStartStr);
 						Date createTimeEnd=format.parse(createTimeEndStr);

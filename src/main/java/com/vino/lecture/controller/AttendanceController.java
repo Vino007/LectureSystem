@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.io.FileUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -28,8 +29,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.vino.lecture.entity.Attendance;
+import com.vino.lecture.entity.Lecture;
+import com.vino.lecture.exception.AttendanceDuplicateException;
 import com.vino.lecture.service.AttendanceExcelService;
 import com.vino.lecture.service.AttendanceService;
+import com.vino.lecture.service.LectureService;
 import com.vino.scaffold.controller.base.BaseController;
 import com.vino.scaffold.entity.Constants;
 import com.vino.scaffold.utils.Servlets;
@@ -43,53 +47,48 @@ public class AttendanceController extends BaseController {
 	@Autowired
 	private AttendanceService attendanceService;
 	@Autowired
+	private LectureService lectureService;
+	@Autowired
 	private AttendanceExcelService attendanceExcelService;
 	@RequiresPermissions("attendance:menu")
 	@RequestMapping(value="/all",method=RequestMethod.GET)
-	public String getAllAttendances(Model model,@RequestParam(value="pageNumber",defaultValue="1")int pageNumber,
+	public String getAllLectures(Model model,@RequestParam(value="pageNumber",defaultValue="1")int pageNumber,
 			@RequestParam(value = "page.size", defaultValue = Constants.PAGE_SIZE+"") int pageSize,
 			@RequestParam(value = "sortType", defaultValue = "auto") String sortType){
-		Page<Attendance> attendancePage=attendanceService.findAll(buildPageRequest(pageNumber));
-		model.addAttribute("attendances", attendancePage.getContent());
-		model.addAttribute("page", attendancePage);
-		//model.addAttribute("searchParams", "");
+		Page<Lecture> lecturePage=lectureService.findAll(buildPageRequest(pageNumber));
+		model.addAttribute("lectures", lecturePage.getContent());
+		model.addAttribute("page", lecturePage);
 		return "attendance/list";
 	}
-	/*@RequiresPermissions("attendance:view")
-	@RequestMapping(value="/search",method=RequestMethod.GET)
-	public String getAttendancesByCondition(Model model,Attendance attendance,@RequestParam(value="pageNumber",defaultValue="1")int pageNumber,ServletRequest request){
-		Map<String,Object> searchParams=Servlets.getParametersStartingWith(request, "search_");
-		log.info("搜索参数="+searchParams.toString());				
-		Page<Attendance> attendancePage=attendanceService.findAttendanceByCondition(searchParams, buildPageRequest(pageNumber));
-		model.addAttribute("attendances",attendancePage.getContent());
-		model.addAttribute("page", attendancePage);	
-		model.addAttribute("searchParams", Servlets.encodeParameterStringWithPrefix(searchParams, "search_"));
-		System.out.println("返回到页面的搜索参数"+Servlets.encodeParameterStringWithPrefix(searchParams, "search_"));
-		System.out.println(searchParams.toString());
-		model.addAttribute("searchParamsMap", searchParams);
-		return "attendance/list";
-	}*/
+	
 	@RequiresPermissions("attendance:create")
 	@RequestMapping(value="/prepareAdd",method=RequestMethod.GET)
-	public String prepareAddAttendance(Model model ){
+	public String prepareAddAttendance(Model model,@RequestParam("lectureId")Long lectureId ){
+		model.addAttribute("lectureId", lectureId);
 		return "attendance/add";
 	}
 	@RequiresPermissions("attendance:create")
 	@RequestMapping(value="/add",method=RequestMethod.POST)
-	public String addAttendance(Model model ,Attendance attendance,HttpSession session){
-		attendanceService.save(attendance);					
-		Page<Attendance> attendancePage=attendanceService.findAll(buildPageRequest(1));
-		model.addAttribute("attendances", attendancePage.getContent());
-		model.addAttribute("page", attendancePage);
+	public String addAttendance(Model model ,Attendance attendance){
+		try {
+			attendanceService.saveWithCheckDuplicate(attendance);
+		} catch (AttendanceDuplicateException e) {
+			e.printStackTrace();			
+			model.addAttribute("requestResult", "entityDuplicate");	
+		}
+		Page<Lecture> lecturePage=lectureService.findAll(buildPageRequest(1));
+		model.addAttribute("lectures", lecturePage.getContent());
+		model.addAttribute("page", lecturePage);
 		return "attendance/list";	
 	}
 	@RequiresPermissions("attendance:delete")
 	@RequestMapping(value="/delete",method=RequestMethod.POST)
-	public  String deleteAttendances(Model model,@RequestParam("deleteIds[]")Long[] deleteIds){
-		attendanceService.delete(deleteIds);
-		Page<Attendance> attendancePage=attendanceService.findAll(buildPageRequest(1));
-		model.addAttribute("attendances", attendancePage.getContent());
-		model.addAttribute("page", attendancePage);
+	public  String deleteAttendances(Model model,long lectureId){
+		attendanceService.deleteAttendance(lectureId);//删除与lecture相关的所有考勤
+		
+		Page<Lecture> lecturePage=lectureService.findAll(buildPageRequest(1));
+		model.addAttribute("lectures", lecturePage.getContent());
+		model.addAttribute("page", lecturePage);
 		return "attendance/list";
 		
 	}
@@ -104,9 +103,9 @@ public class AttendanceController extends BaseController {
 	@RequestMapping(value="/update",method=RequestMethod.POST)	
 	public String updateAttendance(Model model,Attendance attendance){
 		attendanceService.update(attendance);
-		Page<Attendance> attendancePage=attendanceService.findAll(buildPageRequest(1));
-		model.addAttribute("attendances", attendancePage.getContent());
-		model.addAttribute("page", attendancePage);
+		Page<Lecture> lecturePage=lectureService.findAll(buildPageRequest(1));
+		model.addAttribute("lectures", lecturePage.getContent());
+		model.addAttribute("page", lecturePage);
 		return "attendance/list";
 		
 	}
@@ -136,10 +135,9 @@ public class AttendanceController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value="/upload",method=RequestMethod.POST)
 	public String upload(Model model,@RequestParam("file")MultipartFile file,HttpServletRequest request,Long lectureId){
-		Page<Attendance> attendancePage=attendanceService.findAll(buildPageRequest(1));
-		model.addAttribute("attendances", attendancePage.getContent());
-		model.addAttribute("page", attendancePage);
-		
+		Page<Lecture> lecturePage=lectureService.findAll(buildPageRequest(1));
+		model.addAttribute("lectures", lecturePage.getContent());
+		model.addAttribute("page", lecturePage);
 		if(!file.isEmpty()){
 			 //如果用的是Tomcat服务器，则文件会上传到\\%TOMCAT_HOME%\\webapps\\YourWebProject\\WEB-INF\\upload\\文件夹中  
             String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload");  
@@ -147,7 +145,7 @@ public class AttendanceController extends BaseController {
             try {
 				FileUtils.copyInputStreamToFile(file.getInputStream(), new File(realPath, file.getOriginalFilename()));
 				List<Attendance> uploadAttendances=attendanceExcelService.getFromExcel(new File(realPath+"\\"+file.getOriginalFilename()),lectureId);		
-				attendanceService.save(uploadAttendances);
+				attendanceService.saveWithCheckDuplicate(uploadAttendances);
 				log.info("上传用户:"+Arrays.toString(uploadAttendances.toArray()));
 			} catch (IOException e) {
 				log.error("保存或读取文件出错");
@@ -157,15 +155,14 @@ public class AttendanceController extends BaseController {
 				
 				e.printStackTrace();
 				return "fileStreamError";
-			} /*catch (AttendanceDuplicateException e) {
+			} catch (AttendanceDuplicateException e) {
 				e.printStackTrace();
 				log.warn("上传文件包含与数据库重复的对象");
 				return "entityDuplicate";				
-			} */
+			} 
 		}else{
 			return "fileEmpty";
 		}
-		
 		return "uploadSuccess";
 	}
 

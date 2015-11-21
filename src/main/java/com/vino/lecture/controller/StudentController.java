@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
@@ -53,7 +54,6 @@ public class StudentController extends BaseController{
 		Page<Student> studentPage=studentService.findAll(buildPageRequest(pageNumber));
 		model.addAttribute("students", studentPage.getContent());
 		model.addAttribute("page", studentPage);
-		//model.addAttribute("searchParams", "");
 		return "student/list";
 	}
 	@RequiresPermissions("student:view")
@@ -65,8 +65,6 @@ public class StudentController extends BaseController{
 		model.addAttribute("students",studentPage.getContent());
 		model.addAttribute("page", studentPage);	
 		model.addAttribute("searchParams", Servlets.encodeParameterStringWithPrefix(searchParams, "search_"));
-		System.out.println("返回到页面的搜索参数"+Servlets.encodeParameterStringWithPrefix(searchParams, "search_"));
-		System.out.println(searchParams.toString());
 		model.addAttribute("searchParamsMap", searchParams);
 		return "student/list";
 	}
@@ -77,11 +75,11 @@ public class StudentController extends BaseController{
 	}
 	@RequiresPermissions("student:create")
 	@RequestMapping(value="/add",method=RequestMethod.POST)
-	public String addStudent(Model model ,Student student,HttpSession session){
+	public String addStudent(Model model ,Student student) {
 		try {
 			studentService.saveWithCheckDuplicate(student);
 		} catch (StudentDuplicateException e) {	
-			model.addAttribute("studentDuplicate", "true");
+			model.addAttribute("requestResult", "entityDuplicate");			
 			e.printStackTrace();
 		}					
 		Page<Student> studentPage=studentService.findAll(buildPageRequest(1));

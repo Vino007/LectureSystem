@@ -252,32 +252,7 @@
 		
 	}
 	
-	/* function addItem(){
-		$("#modal").on('show.bs.modal',function(event){
-			$('#modal .modal-content').load('user/prepareAdd');
-		});
-	}
-	function updateItem(id){
-		$('#updateModal').on('show.bs.modal',function(event){
-			$('#updateModal .modal-content').load('user/'+id);
-		});
-	}
-	f
-	function detailItem(id){
-		$('#detailModal').on('show.bs.modal',function(event){
-			$('#detailModal .modal-content').load('user/detail/'+id);
-		});
-	}
-	function bindItem(id){
-		$('#bindModal').on('show.bs.modal',function(event){
-			$('#bindModal .modal-content').load('user/prepareBind/'+id);
-		});
-	}
-	function uploadItem(){
-		$('#uploadModal').on('show.bs.modal',function(event){
-			$('#uploadModal .modal-content').load('user/prepareUpload');
-		});
-	} */
+	
 	/**
 	AJAX不能下载文件，用表单来实现
 	*/
