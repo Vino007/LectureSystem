@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.vino.lecture.entity.Attendance;
 import com.vino.lecture.exception.AttendanceDuplicateException;
+import com.vino.lecture.exception.AttendanceNotExistException;
 import com.vino.lecture.repository.AttendanceRepository;
 import com.vino.scaffold.service.base.AbstractBaseServiceImpl;
 @Service("attendanceService")
@@ -55,6 +56,17 @@ public class AttendanceServiceImpl extends AbstractBaseServiceImpl<Attendance, L
 	public void deleteAttendance(Long lectureId) {
 		attendanceRepository.deleteAttendanceByLectureId(lectureId);
 		
+	}
+	
+	@Override
+	public void cancelReservation(Long lectureId, Long studentId) throws AttendanceNotExistException {
+		// TODO Auto-generated method stub
+		Attendance attendance=attendanceRepository.findAttendanceByLectureIdAndStudentId(lectureId, studentId);
+		if(attendance==null){
+			throw new AttendanceNotExistException();
+		}else{
+			attendanceRepository.deleteAttendanceByLectureIdAndStudentId(lectureId, studentId);
+		}
 	}
 		
 }

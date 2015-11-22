@@ -95,7 +95,7 @@
 				<!-- /.row -->
 				<div class="box box-primary">
 					<div class="box-header with-border">
-						<h3 class="box-username">讲座列表</h3>
+						<h3 class="box-username">学生列表</h3>
 					</div>
 					<div class="btn-group">
 						<!-- 注意，为了设置正确的内补（padding），务必在图标和文本之间添加一个空格。 -->

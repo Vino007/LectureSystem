@@ -185,7 +185,7 @@
 											class="btn  btn-xs btn-primary btn-flat " 
 											 onclick='detailItem(${lecture.id})'>详情</button>
 									</shiro:hasPermission> 
-									<shiro:hasPermission name="attendance:upload">
+									<%-- <shiro:hasPermission name="attendance:upload">
 										<button  type="button"
 											class="btn btn-xs btn-primary btn-flat " 
 											onclick="uploadAttendanceItem(${lecture.id})">
@@ -201,7 +201,7 @@
 											 下载考勤
 										</button>
 										</form>
-									</shiro:hasPermission>
+									</shiro:hasPermission> --%>
 									<shiro:hasPermission name="attendance:downloadReserve">
 										<form  style="display:inline;"  id="downloadReserveForm" action="attendance/downloadReserve" method="get">
 										<input type="text" name="lectureId" value="${lecture.id}" hidden="true">

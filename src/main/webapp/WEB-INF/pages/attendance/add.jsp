@@ -14,7 +14,8 @@
 						<label for="attendancer" class="control-label"><font color="red">*</font>学号:</label> <input
 							type="text" class="form-control required " id="username"
 							name="username">
-					</div>								
+					</div>	
+					<input type="text" name="lectureId" value="${lectureId}" hidden="true">							
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

@@ -133,6 +133,12 @@
 										value="${lecture.time}"/></td>
 								<td>${lecture.address}</td>
 								<td>
+									<shiro:hasPermission name="attendance:create">
+										<button id="addBtn" type="button"
+											class="btn  btn-xs btn-danger btn-flat margin" onclick="addItem(${lecture.id})">
+											添加考勤
+										</button>
+									</shiro:hasPermission>
 									<shiro:hasPermission name="attendance:delete">
 										<button id="deleteBtn" type="button"
 											class="btn  btn-xs btn-danger btn-flat margin" onclick="deleteItem(${lecture.id})">
@@ -183,8 +189,6 @@
 	</div>
 </div>
 <!-- ./新增页面 modal框 -->
-
-
 
 <script>
 
@@ -250,13 +254,13 @@
 			}
 		});
 	});
-	function addItem(){
-		$('#modal .modal-content').load('attendance/prepareAdd',function(){
+	function addItem(lectureId){
+		$('#modal .modal-content').load('attendance/prepareAdd?lectureId='+lectureId,function(){
 			$("#modal").modal();
 		});
 	}	
 	function detailItem(id){
-		$('#modal .modal-content').load('lecture/detail/'+id,function(){
+		$('#modal .modal-content').load('attendance/detail/'+id,function(){
 			$("#modal").modal();
 		});			
 	}

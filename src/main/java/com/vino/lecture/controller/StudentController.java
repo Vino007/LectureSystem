@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,8 +31,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.vino.lecture.entity.Attendance;
+import com.vino.lecture.entity.Lecture;
 import com.vino.lecture.entity.Student;
+import com.vino.lecture.exception.AttendanceDuplicateException;
+import com.vino.lecture.exception.AttendanceNotExistException;
 import com.vino.lecture.exception.StudentDuplicateException;
+import com.vino.lecture.service.AttendanceService;
+import com.vino.lecture.service.LectureService;
 import com.vino.lecture.service.StudentExcelService;
 import com.vino.lecture.service.StudentService;
 import com.vino.scaffold.controller.base.BaseController;
@@ -44,6 +52,10 @@ import jxl.read.biff.BiffException;
 public class StudentController extends BaseController{
 	@Autowired
 	private StudentService studentService;
+	@Autowired
+	private LectureService lectureService;
+	@Autowired
+	private AttendanceService attendanceService;
 	@Autowired
 	private StudentExcelService studentExcelService;
 	@RequiresPermissions("student:menu")
@@ -181,18 +193,138 @@ public class StudentController extends BaseController{
 	@RequiresPermissions("student:download")
 	@RequestMapping(value="/download",method=RequestMethod.POST)
 	public ResponseEntity<byte[]> download(@RequestParam(value="downloadIds[]",required=false)Long[] downloadIds,HttpSession session) throws IOException{
-		System.out.println(downloadIds);
 		String realPath=session.getServletContext().getRealPath("/WEB-INF/upload");
 		String fileName="studentExport"+System.currentTimeMillis()+".xls";
 		studentExcelService.saveToExcel(realPath+"\\"+fileName, downloadIds);
 		HttpHeaders headers = new HttpHeaders();    
 		headers.setContentDispositionFormData("attachment", fileName); 
-	
 	    headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);   
 	    FileInputStream fin=new FileInputStream(new File(realPath+"\\"+fileName));
 	    
 	    return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(new File(realPath+"\\"+fileName)),    
 				                                  headers, HttpStatus.CREATED);
 			
+	}
+	/****************************************************************************************************************
+	 ****************************************************************************************************************
+	 **************************************************以下是学生端的功能***********************************************
+	 ****************************************************************************************************************
+	 **************************************************************************************************************** 
+	 */
+	@RequestMapping(value="/lecture/prepareReserve",method=RequestMethod.GET)
+	public String prepareLectureReserve(Model model){
+		List<Lecture> lectures=lectureService.findLectureByAvailable(true);
+		model.addAttribute("lectures", lectures);
+		return "student/lectureReserve";
+	}
+	/**
+	 * 预约讲座
+	 * @param model
+	 * @return 
+	 */
+	@ResponseBody
+	@RequestMapping(value="/lecture/reserve",method=RequestMethod.POST)
+	public Map<String,Object> lectureReserve(Model model,Long lectureId,HttpSession session){
+		Map<String,Object> result=new HashMap<>();
+		Lecture lecture=lectureService.findOne(lectureId);
+		Date now=new Date();
+		//log.info("当前时间"+now);
+		if(lecture.getCurrentPeopleNum()>=lecture.getMaxPeopleNum()){
+			result.put("result", "fullPeople");
+			return result;
+		}else if(now.before(lecture.getReserveStartTime())){
+			result.put("result", "timeNotArrived");
+			return result;
+		}
+		Student curUser=(Student) session.getAttribute(Constants.CURRENT_USER);
+		Long studentId=curUser.getId();
+		Attendance attendance=new Attendance();
+		attendance.setAttended(false);
+		attendance.setStudentId(studentId);
+		attendance.setLectureId(lectureId);
+		
+		try {
+			attendanceService.saveWithCheckDuplicate(attendance); //整合成一个service
+			lecture.setCurrentPeopleNum((lecture.getCurrentPeopleNum())+1);
+			lectureService.update(lecture);
+			result.put("result","success");	
+			
+		} catch (AttendanceDuplicateException e) {		
+			e.printStackTrace();
+			//return "reserveAlready";//已经预约过
+			result.put("result","reserveAlready");
+			
+		}
+		return result;
+		
+	}
+	@ResponseBody
+	@RequestMapping(value="/lecture/cancelReservation",method=RequestMethod.POST)
+	public Map<String,Object> lectureCancelReservation(Model model,Long lectureId,HttpSession session){
+		Lecture lecture=lectureService.findOne(lectureId);
+		Student curUser=(Student) session.getAttribute(Constants.CURRENT_USER);
+		Long studentId=curUser.getId();	
+		Map<String,Object> result=new HashMap<>();	
+		try {
+			attendanceService.cancelReservation(lectureId, studentId);//整合成一个service
+			lecture.setCurrentPeopleNum((lecture.getCurrentPeopleNum())-1);
+			lectureService.update(lecture);
+			result.put("result","success");	
+		} catch (AttendanceNotExistException e) {
+			result.put("result","attendanceNotExist");		
+			e.printStackTrace();
+		}		
+			
+		return result;
+		
+	}
+	/**
+	 * 获取当前学生的讲座
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/myLecture",method=RequestMethod.GET)
+	public String getLecturesByStudent(HttpSession session,Model model){
+		Student curUser=(Student) session.getAttribute(Constants.CURRENT_USER);
+		List<Lecture> lectures=lectureService.findLecturesByStudentId(curUser.getId(), true);//获取已签到的
+		model.addAttribute("lectures", lectures);
+		return "student/myLecture";
+	}
+	/**
+	 * 获取所有讲座
+	 * @param model
+	 * @param pageNumber
+	 * @param pageSize
+	 * @param sortType
+	 * @return
+	 */
+	@RequestMapping(value="/lecture/all",method=RequestMethod.GET)
+	public String getAllLectures(Model model,@RequestParam(value="pageNumber",defaultValue="1")int pageNumber,
+			@RequestParam(value = "page.size", defaultValue = Constants.PAGE_SIZE+"") int pageSize,
+			@RequestParam(value = "sortType", defaultValue = "auto") String sortType){
+		Page<Lecture> lecturePage=lectureService.findAll(buildPageRequest(pageNumber));
+		model.addAttribute("lectures", lecturePage.getContent());
+		model.addAttribute("page", lecturePage);
+		return "student/lectureSearch";
+	}
+	/**
+	 * 查询讲座
+	 * @param model
+	 * @param lecture
+	 * @param pageNumber
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="/lecture/search",method=RequestMethod.GET)
+	public String getLecturesByCondition(Model model,Lecture lecture,@RequestParam(value="pageNumber",defaultValue="1")int pageNumber,ServletRequest request){
+		Map<String,Object> searchParams=Servlets.getParametersStartingWith(request, "search_");
+		log.info("搜索参数="+searchParams.toString());				
+		Page<Lecture> lecturePage=lectureService.findLectureByCondition(searchParams, buildPageRequest(1));
+		model.addAttribute("lectures",lecturePage.getContent());
+		model.addAttribute("page", lecturePage);	
+		model.addAttribute("searchParams", Servlets.encodeParameterStringWithPrefix(searchParams, "search_"));
+		model.addAttribute("searchParamsMap", searchParams);
+		return "student/lectureSearch";
 	}
 }

@@ -30,10 +30,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.vino.lecture.entity.Attendance;
 import com.vino.lecture.entity.Lecture;
+import com.vino.lecture.entity.Student;
 import com.vino.lecture.exception.AttendanceDuplicateException;
 import com.vino.lecture.service.AttendanceExcelService;
 import com.vino.lecture.service.AttendanceService;
 import com.vino.lecture.service.LectureService;
+import com.vino.lecture.service.StudentService;
 import com.vino.scaffold.controller.base.BaseController;
 import com.vino.scaffold.entity.Constants;
 import com.vino.scaffold.utils.Servlets;
@@ -48,6 +50,8 @@ public class AttendanceController extends BaseController {
 	private AttendanceService attendanceService;
 	@Autowired
 	private LectureService lectureService;
+	@Autowired
+	private StudentService studentService;
 	@Autowired
 	private AttendanceExcelService attendanceExcelService;
 	@RequiresPermissions("attendance:menu")
@@ -69,13 +73,24 @@ public class AttendanceController extends BaseController {
 	}
 	@RequiresPermissions("attendance:create")
 	@RequestMapping(value="/add",method=RequestMethod.POST)
-	public String addAttendance(Model model ,Attendance attendance){
-		try {
-			attendanceService.saveWithCheckDuplicate(attendance);
-		} catch (AttendanceDuplicateException e) {
-			e.printStackTrace();			
-			model.addAttribute("requestResult", "entityDuplicate");	
+	public String addAttendance(Model model,long lectureId,String username){
+		Student student=studentService.findByUsername(username);
+		if(student==null){
+			model.addAttribute("requestResult", "entityNotExist");	
+			
+		}else{
+			Attendance attendance=new Attendance();
+			attendance.setAttended(true);
+			attendance.setLectureId(lectureId);
+			attendance.setStudentId(student.getId());
+			try {
+				attendanceService.saveWithCheckDuplicate(attendance);
+			} catch (AttendanceDuplicateException e) {
+				e.printStackTrace();			
+				model.addAttribute("requestResult", "entityDuplicate");	
+			}
 		}
+		
 		Page<Lecture> lecturePage=lectureService.findAll(buildPageRequest(1));
 		model.addAttribute("lectures", lecturePage.getContent());
 		model.addAttribute("page", lecturePage);

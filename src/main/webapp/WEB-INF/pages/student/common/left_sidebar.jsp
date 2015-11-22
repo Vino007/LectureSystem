@@ -26,12 +26,11 @@
 		<!-- Sidebar Menu -->
 		<ul class="sidebar-menu">
 			<li class="header">HEADER</li>
-			<!-- Optionally, you can add icons to the links -->
-		
-			<li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li> 
-			<li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li> 
-			<li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li> 
-			<li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li> 
+			<!-- Optionally, you can add icons to the links -->		
+			<li><a class="sidebarMenuHref" href="student/lecture/prepareReserve"> <span>预约讲座</span></a></li> 
+			<li><a class="sidebarMenuHref" href="student/myLecture"><span>我的讲座</span></a></li> 
+			<li><a class="sidebarMenuHref" href="student/lecture/search"><span>讲座查询</span></a></li> 
+			<li><a class="sidebarMenuHref" href="#"> <span>other</span></a></li> 
 		
 		</ul>
 		<!-- /.sidebar-menu -->

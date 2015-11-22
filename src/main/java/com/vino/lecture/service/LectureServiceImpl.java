@@ -2,6 +2,7 @@ package com.vino.lecture.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -19,10 +20,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.vino.lecture.entity.Attendance;
 import com.vino.lecture.entity.Lecture;
 import com.vino.lecture.entity.Student;
 import com.vino.lecture.exception.LectureDuplicateException;
+import com.vino.lecture.repository.AttendanceRepository;
 import com.vino.lecture.repository.LectureRepository;
+import com.vino.lecture.repository.StudentRepository;
 import com.vino.scaffold.service.base.AbstractBaseServiceImpl;
 import com.vino.scaffold.shiro.entity.User;
 
@@ -30,6 +34,10 @@ import com.vino.scaffold.shiro.entity.User;
 public class LectureServiceImpl extends AbstractBaseServiceImpl<Lecture, Long>  implements LectureService{
 	@Autowired
 	private LectureRepository lectureRepository;
+	@Autowired
+	private AttendanceRepository attendanceRepository;
+	@Autowired
+	private StudentRepository studentRepository;
 	@Override
 	public void save(Lecture obj) {
 		User curUser=getCurrentUser();
@@ -148,8 +156,10 @@ public class LectureServiceImpl extends AbstractBaseServiceImpl<Lecture, Long>  
 			lecture2.setTime(lecture.getTime());
 		if (lecture.getAddress() != null)
 			lecture2.setAddress(lecture.getAddress());
-		if (lecture.getMaxPeopleNum()!=0)
+		if (lecture.getMaxPeopleNum()>-1)
 			lecture2.setMaxPeopleNum(lecture.getMaxPeopleNum());
+		if(lecture.getCurrentPeopleNum()>-1)
+			lecture2.setCurrentPeopleNum(lecture.getCurrentPeopleNum());
 		if (lecture.getReserveStartTime() != null)
 			lecture2.setReserveStartTime(lecture.getReserveStartTime());
 		if (lecture.getDescription() != null)
@@ -160,6 +170,36 @@ public class LectureServiceImpl extends AbstractBaseServiceImpl<Lecture, Long>  
 			lecture2.setCreatorName(lecture.getCreatorName());
 		
 		
+		
+		
+	}
+	/**
+	 * 根据是否签到获取讲座
+	 * @param studentId
+	 * @param isAttended 是否签到
+	 * @return
+	 */
+	
+	@Override
+	public List<Lecture> findLecturesByStudentId(long studentId,boolean isAttended) {
+		List<Attendance> attendances=attendanceRepository.findAttendanceByStudentId(studentId);
+		List<Lecture> lectures;
+		List<Long> lectureIds=new ArrayList<>();
+		for(Attendance a:attendances){
+			//Lecture lecture=lectureRepository.findOne(a.getLectureId());
+			if(isAttended){//保存签到的
+				if(a.isAttended())
+					lectureIds.add(a.getLectureId());
+			}else{//保存未签到的
+				if(!a.isAttended())
+					lectureIds.add(a.getLectureId());
+			}
+		}		
+		return lectures=lectureRepository.findAll(lectureIds);
+	}
+	@Override
+	public List<Lecture> findLectureByAvailable(boolean available) {
+		return lectureRepository.findLectureByAvailable(available);
 	}
 	
 }

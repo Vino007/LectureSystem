@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.vino.lecture.entity.Attendance;
 import com.vino.lecture.exception.AttendanceDuplicateException;
+import com.vino.lecture.exception.AttendanceNotExistException;
 import com.vino.scaffold.service.base.BaseService;
 
 public interface AttendanceService extends BaseService<Attendance, Long>{
@@ -16,4 +17,6 @@ public interface AttendanceService extends BaseService<Attendance, Long>{
 	public void saveWithCheckDuplicate(List<Attendance> attendances) throws AttendanceDuplicateException;
 	public void saveWithCheckDuplicate(Attendance attendance) throws AttendanceDuplicateException;
 	public void deleteAttendance(Long lectureId);	
+//	public void deleteAttendanceByLectureIdAndStudentId(Long lectureId,Long studentId);
+	public void cancelReservation(Long lectureId,Long studentId) throws AttendanceNotExistException;
 }

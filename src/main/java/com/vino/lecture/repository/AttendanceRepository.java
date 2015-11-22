@@ -17,4 +17,13 @@ public interface AttendanceRepository extends BaseRepository<Attendance, Long> {
 	@Modifying
 	@Query("delete from Attendance a where a.lectureId=:lectureId")
 	public void deleteAttendanceByLectureId(@Param("lectureId")long lectureId);
+	@Query("from Attendance a where a.studentId=:studentId")
+	public List<Attendance> findAttendanceByStudentId(@Param("studentId")long studentId);
+	
+	@Modifying
+	@Query("delete from Attendance a where a.lectureId=:lectureId and a.studentId=:studentId")
+	public void deleteAttendanceByLectureIdAndStudentId(@Param("lectureId")long lectureId,@Param("studentId")long studentId);
+	
+	
+	
 }

@@ -1,5 +1,6 @@
 package com.vino.lecture.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
@@ -15,4 +16,8 @@ public interface LectureService extends  BaseService<Lecture, Long>{
 	Page<Lecture> findLectureByCondition(Map<String, Object> searchParams,
 			Pageable pageable);
 	//Lecture findByName(String name);
+	
+	List<Lecture> findLecturesByStudentId(long studentId, boolean isAttended);
+	List<Lecture> findLectureByAvailable(boolean available);
+	
 }
