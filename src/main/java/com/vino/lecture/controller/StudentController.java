@@ -13,6 +13,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.swing.event.ListSelectionEvent;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -211,11 +212,19 @@ public class StudentController extends BaseController{
 	 ****************************************************************************************************************
 	 **************************************************************************************************************** 
 	 */
+	@RequestMapping(value="/profile",method=RequestMethod.GET)
+	public String getProfile(Model model,long studentId){
+		Student student=studentService.findOne(studentId);
+		model.addAttribute("currentUser",student);
+		return "student/client/profile";
+	}
 	@RequestMapping(value="/lecture/prepareReserve",method=RequestMethod.GET)
 	public String prepareLectureReserve(Model model){
 		List<Lecture> lectures=lectureService.findLectureByAvailable(true);
+		//使用讲座时间来对讲座进行排序，时间越靠后，排在越前面
+		
 		model.addAttribute("lectures", lectures);
-		return "student/lectureReserve";
+		return "student/client/lectureReserve";
 	}
 	/**
 	 * 预约讲座
@@ -248,6 +257,7 @@ public class StudentController extends BaseController{
 			lecture.setCurrentPeopleNum((lecture.getCurrentPeopleNum())+1);
 			lectureService.update(lecture);
 			result.put("result","success");	
+			result.put("currentPeopleNum",lectureService.findOne(lectureId).getCurrentPeopleNum());
 			
 		} catch (AttendanceDuplicateException e) {		
 			e.printStackTrace();
@@ -270,13 +280,12 @@ public class StudentController extends BaseController{
 			lecture.setCurrentPeopleNum((lecture.getCurrentPeopleNum())-1);
 			lectureService.update(lecture);
 			result.put("result","success");	
+			result.put("currentPeopleNum",lectureService.findOne(lectureId).getCurrentPeopleNum());
 		} catch (AttendanceNotExistException e) {
 			result.put("result","attendanceNotExist");		
 			e.printStackTrace();
-		}		
-			
-		return result;
-		
+		}					
+		return result;		
 	}
 	/**
 	 * 获取当前学生的讲座
@@ -289,7 +298,13 @@ public class StudentController extends BaseController{
 		Student curUser=(Student) session.getAttribute(Constants.CURRENT_USER);
 		List<Lecture> lectures=lectureService.findLecturesByStudentId(curUser.getId(), true);//获取已签到的
 		model.addAttribute("lectures", lectures);
-		return "student/myLecture";
+		return "student/client/myLecture";
+	}
+	@RequestMapping(value="lecture/detail/{id}",method=RequestMethod.GET)
+	public String findLecture(Model model,@PathVariable("id") Long id){
+		model.addAttribute("lecture", lectureService.findOne(id));
+		return "lecture/detail";
+		
 	}
 	/**
 	 * 获取所有讲座
@@ -306,7 +321,7 @@ public class StudentController extends BaseController{
 		Page<Lecture> lecturePage=lectureService.findAll(buildPageRequest(pageNumber));
 		model.addAttribute("lectures", lecturePage.getContent());
 		model.addAttribute("page", lecturePage);
-		return "student/lectureSearch";
+		return "student/client/lectureSearch";
 	}
 	/**
 	 * 查询讲座
@@ -325,6 +340,20 @@ public class StudentController extends BaseController{
 		model.addAttribute("page", lecturePage);	
 		model.addAttribute("searchParams", Servlets.encodeParameterStringWithPrefix(searchParams, "search_"));
 		model.addAttribute("searchParamsMap", searchParams);
-		return "student/lectureSearch";
+		return "student/client/lectureSearch";
+	}
+	
+	@RequestMapping(value="/updateInfo",method=RequestMethod.POST)	
+	public String updateStudentWithoutAuth(Model model,Student student,HttpSession session){
+		studentService.update(student);//session中的user会自动更新
+	//	session.setAttribute(Constants.CURRENT_USER, studentService.findOne(student.getId()));
+		return "student/client/edit";
+		
+	}
+	@RequestMapping(value="/prepareUpdate/{id}",method=RequestMethod.GET)
+	public String prepareUpdateStudentWithoutAuth(Model model,@PathVariable("id") Long id){
+		model.addAttribute("student", studentService.findOne(id));
+		return "student/client/edit";
+		
 	}
 }

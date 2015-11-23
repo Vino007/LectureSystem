@@ -19,12 +19,6 @@ import com.vino.scaffold.shiro.entity.User;
 import com.vino.scaffold.shiro.service.UserService;
 
 
-
-/**
- * <p>User: Zhang Kaitao
- * <p>Date: 14-1-28
- * <p>Version: 1.0
- */
 public class UserRealm extends AuthorizingRealm {
 	@Autowired
     private UserService userService;
@@ -50,14 +44,14 @@ public class UserRealm extends AuthorizingRealm {
         if(user!=null){    
         authorizationInfo.setRoles(userService.findAllRoleNamesByUsername(username));//查询用户的角色放入凭证中
         authorizationInfo.setStringPermissions(userService.findAllPermissionsByUsername(username));//查询用户权限放入凭证中
-        System.out.println("dogetAuthorization 获取权限");   
-        //更新登录时间
+/*        System.out.println("dogetAuthorization 获取权限");   
+     
         User curUser=userService.findByUsername(username);
         if(curUser.getLoginTime()!=null){
         	curUser.setLastLoginTime(curUser.getLoginTime());
         }
 		curUser.setLoginTime(new Date());		
-		userService.update(curUser);
+		userService.update(curUser);*/
         }
         
 		
@@ -83,11 +77,11 @@ public class UserRealm extends AuthorizingRealm {
         
         if(student!=null){
         	Constants.isStudent=true;
-        	if(student.getLoginTime()!=null){
+        	/*if(student.getLoginTime()!=null){
         		student.setLastLoginTime(student.getLoginTime());
         	}
         	student.setLoginTime(new Date());
-        	studentService.update(student);
+        	studentService.update(student);*/
         	
         	authenticationInfo = new SimpleAuthenticationInfo(
                     student.getUsername(), //用户名
@@ -99,16 +93,13 @@ public class UserRealm extends AuthorizingRealm {
         }
         if(user!=null){
         	Constants.isStudent=false;
-        	//更新登录时间
+        	/*//更新登录时间
             User curUser=userService.findByUsername(username);
             if(curUser.getLoginTime()!=null){
             	curUser.setLastLoginTime(curUser.getLoginTime());
             }
     		curUser.setLoginTime(new Date());		
-    		userService.update(curUser);
-    		
-            System.out.println("doGetAuthenticationInfo 登录");
-           
+    		userService.update(curUser);*/
             //交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自定义实现
             authenticationInfo = new SimpleAuthenticationInfo(
                     user.getUsername(), //用户名

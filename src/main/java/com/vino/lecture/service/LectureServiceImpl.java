@@ -3,6 +3,8 @@ package com.vino.lecture.service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +30,7 @@ import com.vino.lecture.repository.AttendanceRepository;
 import com.vino.lecture.repository.LectureRepository;
 import com.vino.lecture.repository.StudentRepository;
 import com.vino.scaffold.service.base.AbstractBaseServiceImpl;
+import com.vino.scaffold.shiro.entity.Resource;
 import com.vino.scaffold.shiro.entity.User;
 
 @Service("lectureService")
@@ -199,7 +202,20 @@ public class LectureServiceImpl extends AbstractBaseServiceImpl<Lecture, Long>  
 	}
 	@Override
 	public List<Lecture> findLectureByAvailable(boolean available) {
-		return lectureRepository.findLectureByAvailable(available);
+		List<Lecture> lectures=lectureRepository.findLectureByAvailable(available);
+		Collections.sort(lectures, new Comparator<Lecture>() {
+			@Override
+
+			public int compare(Lecture o1, Lecture o2) {
+				if(o1.getTime().before(o2.getTime()))//o1±»o2 ±º‰‘Á
+				return 1;
+				else if(o1.getTime().after(o2.getTime()))
+					return -1;
+				else
+					return 0;
+			}
+		});
+		return lectures;
 	}
 	
 }

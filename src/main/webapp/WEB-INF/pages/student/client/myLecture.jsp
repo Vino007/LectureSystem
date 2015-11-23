@@ -7,13 +7,9 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
 	<h1>
-		讲座管理 <small></small>
+		我的讲座
 	</h1>
-	<ol class="breadcrumb">
-		<li><a href="#"><i class="fa fa-dashboard"></i>系统管理</a></li>
-
-		<li class="active">用户管理</li>
-	</ol>
+	
 </section>
 <!-- Main content -->
 <section class="content">
@@ -44,7 +40,7 @@
 							<th>时间</th>
 							<th>地点</th>
 							<th>允许人数</th>
-
+							<th>操作</th>
 						</tr>
 						<c:forEach items="${lectures}" var="lecture" varStatus="status">
 							<tr>
@@ -55,15 +51,13 @@
 										value="${lecture.time}" /></td>
 								<td>${lecture.address}</td>
 								<td>${lecture.maxPeopleNum}</td>
+								<td><a  class="btn btn-primary btn-xs " onclick="detailItem(${lecture.id})">详情</a></td>
 
 							</tr>
 						</c:forEach>
 					</table>
 				</div>
 				<!-- /.box-body -->
-				<!-- 分页 -->
-				<%-- 	<vino:pagination paginationSize="10" page="${page}"
-					action="student/lecture/search" contentSelector="#content-wrapper"></vino:pagination> --%>
 			</div>
 			<!-- /.box -->
 		</div>
@@ -79,19 +73,9 @@
 	</div>
 </div>
 <!-- ./新增页面 modal框 -->
-
-
-
-<script>
-
-	//Date range picker
-	$('.dateRangePicker').daterangepicker();
-	
-	
-	
-	
+<script>	
 	function detailItem(id){
-		$('#modal .modal-content').load('lecture/detail/'+id,function(){
+		$('#modal .modal-content').load('student/lecture/detail/'+id,function(){
 			$("#modal").modal();
 		});			
 	}

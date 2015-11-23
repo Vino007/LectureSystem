@@ -18,6 +18,11 @@ public interface LectureService extends  BaseService<Lecture, Long>{
 	//Lecture findByName(String name);
 	
 	List<Lecture> findLecturesByStudentId(long studentId, boolean isAttended);
+	/**
+	 * 查找可预约的讲座，讲座按照时间先后排序，时间靠后的排在最前面
+	 * @param available
+	 * @return
+	 */
 	List<Lecture> findLectureByAvailable(boolean available);
 	
 }

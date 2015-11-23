@@ -91,7 +91,8 @@
 							<th>主讲人</th>
 							<th>时间</th>
 							<th>地点</th>
-							<th>允许人数</th>																
+							<th>允许人数</th>
+							<th>操作</th>
 						</tr>
 						<c:forEach items="${lectures}" var="lecture" varStatus="status">
 							<tr>							
@@ -101,7 +102,8 @@
 								<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss"
 										value="${lecture.time}"/></td>
 								<td>${lecture.address}</td>
-								<td>${lecture.maxPeopleNum}</td>													
+								<td>${lecture.maxPeopleNum}</td>
+								<td><a  class="btn btn-primary btn-xs " onclick="detailItem(${lecture.id})">详情</a></td>
 							</tr>
 						</c:forEach>
 					</table>
@@ -135,9 +137,7 @@
 	//Date range picker
 	$('.dateRangePicker').daterangepicker();
 	
-	/* icheck 初始化 详情：https://github.com/fronteed/icheck */
-   	iCheckInit();
- 	/* iCheck事件监听 详情：https://github.com/fronteed/icheck */
+	
 	$("#searchBtn").click(function() {
 		$('#pageNumber').val(1);
 		$.ajax({
@@ -156,7 +156,7 @@
 		});
 	});	
 	function detailItem(id){
-		$('#modal .modal-content').load('lecture/detail/'+id,function(){
+		$('#modal .modal-content').load('student/lecture/detail/'+id,function(){
 			$("#modal").modal();
 		});			
 	}

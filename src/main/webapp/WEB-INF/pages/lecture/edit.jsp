@@ -40,8 +40,9 @@
 										value="${lecture.reserveStartTime}"/>">
 					</div>
 					<div class="form-group">
-						<label for="description" class="control-label">详情描述:</label> <input
-							type="text" class="form-control required" id="description" name="description" value="${lecture.description}">
+						<label for="description" class="control-label">详情描述:</label><textarea
+							class="form-control required" id="description"
+							name="description" >${lecture.description}</textarea>
 					</div>
 			</div>
 			<div class="modal-footer">
