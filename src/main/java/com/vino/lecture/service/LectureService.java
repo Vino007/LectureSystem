@@ -25,4 +25,5 @@ public interface LectureService extends  BaseService<Lecture, Long>{
 	 */
 	List<Lecture> findLectureByAvailable(boolean available);
 	
+	
 }

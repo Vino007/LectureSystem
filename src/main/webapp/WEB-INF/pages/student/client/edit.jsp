@@ -24,6 +24,11 @@
 					type="text" class="form-control" id="username" name="username"
 					disabled="disabled" value="${student.username}">
 			</div>
+				<%-- <div class="form-group">
+				<label for="password" class="control-label required">密码:</label> <input
+					type="password" class="form-control" id="password" name="password"
+					disabled="disabled" value="${student.password}">
+			</div> --%>
 			<div class="form-group">
 				<label for="name" class="control-label">姓名:</label> <input
 					type="text" class="form-control required" id="name" name="name"

@@ -356,4 +356,19 @@ public class StudentController extends BaseController{
 		return "student/client/edit";
 		
 	}
+	@RequestMapping(value="/prepareAlterPassword/{id}",method=RequestMethod.GET)
+	public String prepareAlterPassword(Model model,@PathVariable("id") Long id){
+		model.addAttribute("student", studentService.findOne(id));
+		return "student/client/alterPassword";
+		
+	}
+	@ResponseBody
+	@RequestMapping(value="/alterPassword",method=RequestMethod.POST)	
+	public Map<String,Object> alterPassword(Model model,long studentId,String oldPassword,String newPassword,String newPassword2,HttpSession session){
+		String result=studentService.alterPassword(studentId, oldPassword, newPassword, newPassword2);
+		Map<String,Object> resultMap=new HashMap<>();
+		resultMap.put("result", result);
+		return resultMap;
+		
+	}
 }

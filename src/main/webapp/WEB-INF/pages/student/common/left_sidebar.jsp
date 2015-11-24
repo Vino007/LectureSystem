@@ -31,6 +31,7 @@
 			<li><a class="sidebarMenuHref" href="student/myLecture"><span>我的讲座</span></a></li> 
 			<li><a class="sidebarMenuHref" href="student/lecture/search"><span>讲座查询</span></a></li> 
 			<li><a class="sidebarMenuHref" href="student/prepareUpdate/${currentUser.id}"> <span>修改信息</span></a></li> 
+			<li><a class="sidebarMenuHref" href="student/prepareAlterPassword/${currentUser.id}"> <span>修改密码</span></a></li> 
 		
 		</ul>
 		<!-- /.sidebar-menu -->

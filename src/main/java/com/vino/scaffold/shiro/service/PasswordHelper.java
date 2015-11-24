@@ -59,4 +59,12 @@ public class PasswordHelper {
 
         student.setPassword(newPassword);
     }
+    public String encryptStudentPasswordOnly(String password,String salt){
+    	String newPassword = new SimpleHash(
+                algorithmName,
+                password,
+                ByteSource.Util.bytes(salt),
+                hashIterations).toHex();
+    	return newPassword;
+    }
 }

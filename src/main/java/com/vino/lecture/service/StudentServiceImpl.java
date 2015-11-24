@@ -177,4 +177,19 @@ public class StudentServiceImpl extends AbstractBaseServiceImpl<Student, Long> i
 
 	}
 
+	@Override
+	public String alterPassword(long studentId,String oldPassword, String newPassword, String newPassword2) {
+		Student student=studentRepository.findOne(studentId);
+		if(!newPassword.equals(newPassword2))
+			return "newPasswordError";
+		String password=student.getPassword();
+		String oldPasswordEncry=passwordHelper.encryptStudentPasswordOnly(oldPassword, student.getSalt());
+		if(!password.equals(oldPasswordEncry)){
+			return "olePasswordError";
+		}
+		String newPasswordEncry=passwordHelper.encryptStudentPasswordOnly(newPassword, student.getSalt());
+		student.setPassword(newPasswordEncry);
+		return "success";
+	}
+
 }

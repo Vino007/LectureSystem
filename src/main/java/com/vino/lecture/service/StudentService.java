@@ -19,4 +19,5 @@ public interface StudentService extends  BaseService<Student, Long>{
 	Page<Student> findStudentByCondition(Map<String, Object> searchParams,
 			Pageable pageable);
 	void update(Student student);
+	String alterPassword(long studentId, String oldPassword, String newPassword, String newPassword2);
 }

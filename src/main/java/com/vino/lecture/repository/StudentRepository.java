@@ -2,6 +2,7 @@ package com.vino.lecture.repository;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -12,5 +13,8 @@ import com.vino.scaffold.repository.base.BaseRepository;
 
 public interface StudentRepository extends BaseRepository<Student, Long>{
 	public Student findByUsername(String username);
+	@Modifying
+	@Query("update Student s set s.password=:password")
+	void alterPassword(@Param("password")String password);
 	
 }
