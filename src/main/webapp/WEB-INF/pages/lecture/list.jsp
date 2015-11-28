@@ -12,7 +12,7 @@
 	<ol class="breadcrumb">
 		<li><a href="#"><i class="fa fa-dashboard"></i>系统管理</a></li>
 		
-		<li class="active">用户管理</li>
+		<li class="active">讲座管理</li>
 	</ol>
 </section>
 <!-- Main content -->
@@ -81,7 +81,7 @@
 												<label for="isLockedLabel" >是否锁定: </label><br>
 												<input id="isLockedLabel" type="checkbox" name="search_locked">
 											</div> -->
-
+											
 											<!-- /.form group -->
 										</div>
 										<!-- other rows -->
@@ -174,7 +174,14 @@
 							<%-- 	<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss"
 										value="${lecture.createTime}" /></td>
 								<td>${lecture.creatorName}</td> --%>
-								
+								<c:choose>
+									<c:when test="${lecture.available}">
+										<td><span class="badge bg-red">可预约</span></td>
+									</c:when>
+									<c:otherwise>
+										<td><span class="badge bg-green">不可预约</span></td>
+									</c:otherwise>
+								</c:choose>
 								<td><shiro:hasPermission name="lecture:update">
 										<button id="updateBtn" type="button"
 											class="btn btn-xs btn-primary btn-flat"
@@ -185,23 +192,7 @@
 											class="btn  btn-xs btn-primary btn-flat " 
 											 onclick='detailItem(${lecture.id})'>详情</button>
 									</shiro:hasPermission> 
-									<%-- <shiro:hasPermission name="attendance:upload">
-										<button  type="button"
-											class="btn btn-xs btn-primary btn-flat " 
-											onclick="uploadAttendanceItem(${lecture.id})">
-											 上传考勤
-										</button>
-									</shiro:hasPermission>
-										<shiro:hasPermission name="attendance:downloadAttendance">
-										<form style="display:inline;" id="downloadAttendanceForm" action="attendance/downloadAttendance" method="get">
-										<input type="text" name="lectureId" value="${lecture.id}" hidden="true">
-										<button  type="submit"
-											class="btn btn-xs btn-primary btn-flat " 
-											 onclick="downloadAttendanceItem()">
-											 下载考勤
-										</button>
-										</form>
-									</shiro:hasPermission> --%>
+									
 									<shiro:hasPermission name="attendance:downloadReserve">
 										<form  style="display:inline;"  id="downloadReserveForm" action="attendance/downloadReserve" method="get">
 										<input type="text" name="lectureId" value="${lecture.id}" hidden="true">
@@ -239,7 +230,28 @@
 </div>
 <!-- ./新增页面 modal框 -->
 
-
+<!-- 删除确认页面 modal框 -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog"
+	aria-labelledby="exampleModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="exampleModalLabel">删除讲座</h4>
+			</div>
+			<div class="modal-body">
+				<div>确定要删除吗？</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" id="deleteConfirmBtn">提交</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 <script>
 
@@ -258,14 +270,20 @@
 		});
 		
 	});
-	
+	//删除确认modal事件处理
+	$('#deleteConfirmModal').on('shown.bs.modal', function(event) {
+		$('#deleteConfirmBtn').click(function(){
+			deleteItemsUseModal("input[class*='deleteCheckbox']","lecture/delete");
+		});
+	});
 	/* button监听事件 */
 	$(document).ready(function(){
 		$("#deleteBtn").click(function(){
-			deleteItems("input[class*='deleteCheckbox']","lecture/delete");
+			$("#deleteConfirmModal").modal();	
 		});
 		
-	});		
+	});
+	
 	$("#searchBtn").click(function() {
 		$('#pageNumber').val(1);
 		$.ajax({

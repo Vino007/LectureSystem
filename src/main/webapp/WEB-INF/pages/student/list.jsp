@@ -26,7 +26,7 @@
 					<div class="col-md-12">
 						<div class="box box-primary">
 							<div class="box-header with-border">
-								<h3 class="box-username">数据查询</h3>
+								<h3 class="box-title">数据查询</h3>
 							</div>
 							<div class="box-body">
 								<!-- form start -->
@@ -95,7 +95,7 @@
 				<!-- /.row -->
 				<div class="box box-primary">
 					<div class="box-header with-border">
-						<h3 class="box-username">学生列表</h3>
+						<h3 class="box-title">学生列表</h3>
 					</div>
 					<div class="btn-group">
 						<!-- 注意，为了设置正确的内补（padding），务必在图标和文本之间添加一个空格。 -->
@@ -189,7 +189,28 @@
 		<div class="modal-content"></div>
 	</div>
 </div>
-
+<!-- 删除确认页面 modal框 -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog"
+	aria-labelledby="exampleModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="exampleModalLabel">删除讲座</h4>
+			</div>
+			<div class="modal-body">
+				<div>确定要删除吗？</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" id="deleteConfirmBtn">提交</button>
+			</div>
+		</div>
+	</div>
+</div>
 <script>
 	//Date range picker
 	$('.dateRangePicker').daterangepicker();
@@ -207,9 +228,16 @@
 		
 	});
 	/* button监听事件 */
+//删除确认modal事件处理
+	$('#deleteConfirmModal').on('shown.bs.modal', function(event) {
+		$('#deleteConfirmBtn').click(function(){
+			deleteItemsUseModal("input[class*='deleteCheckbox']","student/delete");
+		});
+	});
+	/* button监听事件 */
 	$(document).ready(function(){
 		$("#deleteBtn").click(function(){
-			deleteItems("input[class*='deleteCheckbox']","student/delete");
+			$("#deleteConfirmModal").modal();	
 		});
 		
 	});		

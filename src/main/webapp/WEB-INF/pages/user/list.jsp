@@ -187,7 +187,28 @@
 	</div>
 </div>
 <!-- ./新增页面 modal框 -->
-
+<!-- 删除确认页面 modal框 -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog"
+	aria-labelledby="exampleModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="exampleModalLabel">删除讲座</h4>
+			</div>
+			<div class="modal-body">
+				<div>确定要删除吗？</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" id="deleteConfirmBtn">提交</button>
+			</div>
+		</div>
+	</div>
+</div>
 <script>
 
 	//Date range picker
@@ -203,12 +224,19 @@
 			$('input[class*="deleteCheckbox"]').iCheck('toggle');			
 		});		
 	});
+	//删除确认modal事件处理
+	$('#deleteConfirmModal').on('shown.bs.modal', function(event) {
+		$('#deleteConfirmBtn').click(function(){
+			deleteItemsUseModal("input[class*='deleteCheckbox']","user/delete");
+		});
+	});
 	/* button监听事件 */
 	$(document).ready(function(){
 		$("#deleteBtn").click(function(){
-			deleteItems("input[class*='deleteCheckbox']","user/delete");
-		});	
-	});		
+			$("#deleteConfirmModal").modal();	
+		});
+		
+	});	
 	$("#searchBtn").click(function() {
 		$('#pageNumber').val(1);
 		$.ajax({

@@ -189,7 +189,28 @@
 	</div>
 </div>
 <!-- ./新增页面 modal框 -->
-
+<!-- 删除确认页面 modal框 -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog"
+	aria-labelledby="exampleModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="exampleModalLabel">删除讲座</h4>
+			</div>
+			<div class="modal-body">
+				<div>确定要删除吗？</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" id="deleteConfirmBtn">提交</button>
+			</div>
+		</div>
+	</div>
+</div>
 <script>
 
 	//Date range picker
@@ -222,22 +243,35 @@
 	});
 	/* button监听事件 */
 	function deleteItem(lectureId){
-		$.ajax({
-			async : false,
-			cache : false,
-			type : 'POST',
-			data : $.param({
-				lectureId : lectureId
-			}),		 
-			url : "attendance/delete",//请求的action路径  
-			error : function() {//请求失败处理函数  
-				alert('失败');
-			},
-			success : function(data) { //请求成功后处理函数。    
-				$("#content-wrapper").html(data);//刷新content页面
-			}
-		});
+		$("#deleteConfirmModal").modal();
+		//删除确认modal事件处理
+		$('#deleteConfirmModal').on('shown.bs.modal', function(event) {
+			$('#deleteConfirmBtn').click(function(){
+				$.ajax({
+					async : false,
+					cache : false,
+					type : 'POST',
+					data : $.param({
+						lectureId : lectureId
+					}),		 
+					url : "attendance/delete",//请求的action路径  
+					error : function() {//请求失败处理函数  
+						alert('失败');
+					},
+					success : function(data) { //请求成功后处理函数。  
+						alert("成功"); 
+						$("#deleteConfirmModal").modal('hide');
+						$('#deleteConfirmModal').on('hidden.bs.modal',function(event){//当modal框完全隐藏后再刷新页面content，要不然有bug
+							$("#content-wrapper").html(data);//刷新content页面
+						});
+					}
+				});
+			});
+		});	
 	}
+	
+
+
 	$("#searchBtn").click(function() {
 		//$('#pageNumber').val(1);
 		$.ajax({
