@@ -44,14 +44,6 @@ public class UserRealm extends AuthorizingRealm {
         if(user!=null){    
         authorizationInfo.setRoles(userService.findAllRoleNamesByUsername(username));//查询用户的角色放入凭证中
         authorizationInfo.setStringPermissions(userService.findAllPermissionsByUsername(username));//查询用户权限放入凭证中
-/*        System.out.println("dogetAuthorization 获取权限");   
-     
-        User curUser=userService.findByUsername(username);
-        if(curUser.getLoginTime()!=null){
-        	curUser.setLastLoginTime(curUser.getLoginTime());
-        }
-		curUser.setLoginTime(new Date());		
-		userService.update(curUser);*/
         }
         
 		
@@ -76,13 +68,7 @@ public class UserRealm extends AuthorizingRealm {
         }
         
         if(student!=null){
-        	Constants.isStudent=true;
-        	/*if(student.getLoginTime()!=null){
-        		student.setLastLoginTime(student.getLoginTime());
-        	}
-        	student.setLoginTime(new Date());
-        	studentService.update(student);*/
-        	
+        	Constants.isStudent=true;        	
         	authenticationInfo = new SimpleAuthenticationInfo(
                     student.getUsername(), //用户名
                     student.getPassword(), //密码
@@ -92,14 +78,7 @@ public class UserRealm extends AuthorizingRealm {
             return authenticationInfo;
         }
         if(user!=null){
-        	Constants.isStudent=false;
-        	/*//更新登录时间
-            User curUser=userService.findByUsername(username);
-            if(curUser.getLoginTime()!=null){
-            	curUser.setLastLoginTime(curUser.getLoginTime());
-            }
-    		curUser.setLoginTime(new Date());		
-    		userService.update(curUser);*/
+        	Constants.isStudent=false;       
             //交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自定义实现
             authenticationInfo = new SimpleAuthenticationInfo(
                     user.getUsername(), //用户名

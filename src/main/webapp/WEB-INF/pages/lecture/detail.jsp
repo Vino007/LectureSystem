@@ -22,6 +22,14 @@
 				<tr><td>预约开始时间:</td><td><fmt:formatDate pattern="yyyy-MM-dd HH:mm"
 										value="${lecture.reserveStartTime}"/></td></tr>
 				<tr><td>详情描述:</td><td>${lecture.description}	</td></tr>
+				<c:choose>
+					<c:when test="${lecture.available}">
+						<td>状态:</td><td><span class="badge bg-green">可预约</span></td>
+					</c:when>
+					<c:otherwise>
+						<td>状态:</td><td><span class="badge bg-red">不可预约</span></td>
+					</c:otherwise>
+				</c:choose>
 				<tr><td>创建时间:</td><td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss"
 										value="${lecture.createTime}"/></td></tr>
 				<tr><td>创建人:</td><td>${lecture.creatorName}	</td></tr>

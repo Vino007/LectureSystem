@@ -44,6 +44,19 @@
 							class="form-control required" id="description"
 							name="description" >${lecture.description}</textarea>
 					</div>
+					<div class="form-group">
+						<label for="locked" class="control-label">状态:</label> 
+						<c:choose>
+							<c:when test="${lecture.available}">
+							<input  name="available"  type="radio" checked="checked" value="true">可预约
+							<input  name="available"  type="radio" value="false">不可预约
+							</c:when>
+							<c:otherwise>
+							<input  name="available"  type="radio" value="true">可预约
+							<input  name="available"  type="radio" checked="checked" value="false">不可预约
+							</c:otherwise>
+						</c:choose>
+					</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

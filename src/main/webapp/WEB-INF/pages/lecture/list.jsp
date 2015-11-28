@@ -153,10 +153,8 @@
 							<th>地点</th>
 							<th>允许人数</th>
 							<th>当前人数</th>
-						<!-- 	<th>创建时间</th>
-							<th>创建人</th> -->
-						
-							<th>操作</th><!-- 水平居中 -->
+							<th>状态</th><!-- 水平居中 -->
+							<th>操作</th>
 
 						</tr>
 						<c:forEach items="${lectures}" var="lecture" varStatus="status">
@@ -171,15 +169,12 @@
 								<td>${lecture.address}</td>
 								<td>${lecture.maxPeopleNum}</td>
 								<td>${lecture.currentPeopleNum}</td>
-							<%-- 	<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss"
-										value="${lecture.createTime}" /></td>
-								<td>${lecture.creatorName}</td> --%>
 								<c:choose>
 									<c:when test="${lecture.available}">
-										<td><span class="badge bg-red">可预约</span></td>
+										<td><span class="badge bg-green">可预约</span></td>
 									</c:when>
 									<c:otherwise>
-										<td><span class="badge bg-green">不可预约</span></td>
+										<td><span class="badge bg-red">不可预约</span></td>
 									</c:otherwise>
 								</c:choose>
 								<td><shiro:hasPermission name="lecture:update">

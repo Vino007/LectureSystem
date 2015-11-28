@@ -171,7 +171,8 @@ public class LectureServiceImpl extends AbstractBaseServiceImpl<Lecture, Long>  
 			lecture2.setCreateTime(lecture.getCreateTime());
 		if (lecture.getCreatorName() != null)
 			lecture2.setCreatorName(lecture.getCreatorName());
-		
+		if(lecture.getAvailable()!=null)
+			lecture2.setAvailable(lecture.getAvailable());
 		
 		
 		

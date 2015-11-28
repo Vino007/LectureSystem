@@ -45,7 +45,7 @@ public class Lecture extends BaseEntity<Long>{
 	private int currentPeopleNum;
 	
 	@Column(name = "available")
-	private boolean available=Boolean.TRUE;//是否在预约界面可以查看，讲座时间多了后不能查看，设置一个定时任务来处理
+	private Boolean available=Boolean.TRUE;//是否在预约界面可以查看，讲座时间多了后不能查看，设置一个定时任务来处理
 	/*@ManyToMany(targetEntity=Student.class)
 	@JoinTable(name="t_lecture_student",joinColumns=@JoinColumn(name="lecture_id"),inverseJoinColumns=@JoinColumn(name="student_id"))
 	private Set<Student> students=new HashSet<Student>();
@@ -104,12 +104,14 @@ public class Lecture extends BaseEntity<Long>{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public boolean isAvailable() {
-		return available;
-	}
-	public void setAvailable(boolean available) {
+
+	public void setAvailable(Boolean available) {
 		this.available = available;
 	}
+	public Boolean getAvailable() {
+		return available;
+	}
+	
 /*	public Set<Student> getStudents() {
 		return students;
 	}
