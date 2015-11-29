@@ -56,7 +56,6 @@ public class LectureController extends BaseController {
 	@RequestMapping(value="/search",method=RequestMethod.GET)
 	public String getLecturesByCondition(Model model,Lecture lecture,@RequestParam(value="pageNumber",defaultValue="1")int pageNumber,ServletRequest request){
 		Map<String,Object> searchParams=Servlets.getParametersStartingWith(request, "search_");
-		log.info("ËÑË÷²ÎÊý="+searchParams.toString());				
 		Page<Lecture> lecturePage=lectureService.findLectureByCondition(searchParams, buildPageRequest(1));
 		model.addAttribute("lectures",lecturePage.getContent());
 		model.addAttribute("page", lecturePage);	
@@ -178,7 +177,7 @@ public class LectureController extends BaseController {
 		HttpHeaders headers = new HttpHeaders();    
 		headers.setContentDispositionFormData("attachment", fileName); 
 	    headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);   
-	    FileInputStream fin=new FileInputStream(new File(realPath+"\\"+fileName));
+	   // FileInputStream fin=new FileInputStream(new File(realPath+"\\"+fileName));
 	    return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(new File(realPath+"\\"+fileName)),    
 				                                  headers, HttpStatus.CREATED);
 			

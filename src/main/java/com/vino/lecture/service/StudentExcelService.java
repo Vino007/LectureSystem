@@ -64,7 +64,7 @@ public class StudentExcelService {
 		// 创建输入流
 		// 获取Excel文件对象
 		if (file == null || !file.exists()) {
-			System.out.println(file.getName() + "不存在！");
+			return null;
 		}
 		InputStream stream = new FileInputStream(file);
 		rwb = Workbook.getWorkbook(stream);

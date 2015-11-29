@@ -192,7 +192,7 @@ public class AttendanceController extends BaseController {
 		headers.setContentDispositionFormData("attachment", fileName); 
 	
 	    headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);   
-	    FileInputStream fin=new FileInputStream(new File(realPath+"\\"+fileName));
+	  //  FileInputStream fin=new FileInputStream(new File(realPath+"\\"+fileName));
 	    
 	    return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(new File(realPath+"\\"+fileName)),    
 				                                  headers, HttpStatus.CREATED);
@@ -208,7 +208,7 @@ public class AttendanceController extends BaseController {
 		headers.setContentDispositionFormData("attachment", fileName); 
 	
 	    headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);   
-	    FileInputStream fin=new FileInputStream(new File(realPath+"\\"+fileName));
+	   // FileInputStream fin=new FileInputStream(new File(realPath+"\\"+fileName));
 	    
 	    return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(new File(realPath+"\\"+fileName)),    
 				                                  headers, HttpStatus.CREATED);
