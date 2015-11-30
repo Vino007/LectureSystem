@@ -3,6 +3,7 @@ package com.vino.lecture.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -173,9 +174,12 @@ public class LectureController extends BaseController {
 	public ResponseEntity<byte[]> download(@RequestParam(value="downloadIds[]",required=false)Long[] downloadIds,HttpSession session) throws IOException{
 		String realPath=session.getServletContext().getRealPath("/WEB-INF/upload");
 		String fileName="lectureExport"+System.currentTimeMillis()+".xls";
+		String enFileName=URLEncoder.encode("讲座列表"+System.currentTimeMillis()+".xls", "utf-8");//使用utf8编码后，中文字符才能在http中传输
+		
 		lectureExcelService.saveToExcel(realPath+"\\"+fileName, downloadIds);
 		HttpHeaders headers = new HttpHeaders();    
-		headers.setContentDispositionFormData("attachment", fileName); 
+		
+		headers.setContentDispositionFormData("attachment", enFileName); 
 	    headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);   
 	   // FileInputStream fin=new FileInputStream(new File(realPath+"\\"+fileName));
 	    return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(new File(realPath+"\\"+fileName)),    

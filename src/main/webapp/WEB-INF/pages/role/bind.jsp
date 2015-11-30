@@ -6,7 +6,7 @@
 		aria-label="Close">
 		<span aria-hidden="true">&times;</span>
 	</button>
-	<h4 class="modal-title" id="exampleModalLabel">编辑用户</h4>
+	<h4 class="modal-title" id="exampleModalLabel">绑定资源</h4>
 </div>
 
 <div class="modal-body">
