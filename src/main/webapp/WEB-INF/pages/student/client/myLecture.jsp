@@ -30,7 +30,7 @@
 					<div class="box-header with-border">
 						<h3 class="box-title">讲座列表</h3>
 					</div>
-
+				<div class="table-responsive">
 					<table class="table table-hover center">
 						<tr>
 
@@ -56,6 +56,7 @@
 							</tr>
 						</c:forEach>
 					</table>
+					</div>
 				</div>
 				<!-- /.box-body -->
 			</div>

@@ -169,7 +169,7 @@ public class LectureController extends BaseController {
 	 */
 	
 	@RequiresPermissions("lecture:download")
-	@RequestMapping(value="/download",method=RequestMethod.POST)
+	@RequestMapping(value="/download",method=RequestMethod.GET)
 	public ResponseEntity<byte[]> download(@RequestParam(value="downloadIds[]",required=false)Long[] downloadIds,HttpSession session) throws IOException{
 		String realPath=session.getServletContext().getRealPath("/WEB-INF/upload");
 		String fileName="lectureExport"+System.currentTimeMillis()+".xls";

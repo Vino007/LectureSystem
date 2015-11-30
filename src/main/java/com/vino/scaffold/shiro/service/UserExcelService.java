@@ -38,7 +38,6 @@ public class UserExcelService {
 	}
 	public void saveToExcel(String path,Long...ids) throws FileNotFoundException{
 		List<User> users=userService.find(ids);
-		System.out.println("´´½¨excel"+users);
 		File file=new File(path);
 		createExcel(new FileOutputStream(file), users);
 	}

@@ -92,6 +92,7 @@
 							<span class="fa fa-fw fa-remove" aria-hidden="true"></span> 删除</button>
 						</shiro:hasPermission>
 					</div>
+				<div class="table-responsive">
 					<table class="table table-hover center">
 						<tr>
 							<th style="width: 10px"><label> <input id="allCheck"
@@ -142,6 +143,7 @@
 							</tr>
 						</c:forEach>
 					</table>
+					</div>
 				</div>
 				<!-- /.box-body -->
 				<!-- 分页 -->

@@ -109,6 +109,7 @@
 						<!-- 注意，为了设置正确的内补（padding），务必在图标和文本之间添加一个空格。 -->										
 																
 					</div>
+				<div class="table-responsive">
 					<table class="table table-hover center">
 						<tr>
 							<th style="width: 10px"><label> <input id="allCheck"
@@ -153,7 +154,7 @@
 										</button>
 									</shiro:hasPermission>
 										<shiro:hasPermission name="attendance:downloadAttendance">
-										<form style="display:inline;" id="downloadAttendanceForm" action="attendance/downloadAttendance" method="get">
+										<form  id="downloadAttendanceForm" action="attendance/downloadAttendance" method="get">
 										<input type="text" name="lectureId" value="${lecture.id}" hidden="true">
 										<button  type="submit"
 											class="btn btn-xs btn-primary btn-flat margin " 
@@ -167,6 +168,7 @@
 							</tr>
 						</c:forEach>
 					</table>
+					</div>
 				</div>
 				<!-- /.box-body -->
 				<!-- 分页 -->

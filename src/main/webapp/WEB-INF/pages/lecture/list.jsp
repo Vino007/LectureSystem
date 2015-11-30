@@ -105,12 +105,8 @@
 					<div class="box-header with-border">
 						<h3 class="box-title">讲座列表</h3>
 					</div>
-					<div class="btn-group">
-					
-				
-					
-						<!-- 注意，为了设置正确的内补（padding），务必在图标和文本之间添加一个空格。 -->
-						<form id="downloadForm" action="lecture/download" method="post" >
+					<div class="btn-group">				
+						<!-- 注意，为了设置正确的内补（padding），务必在图标和文本之间添加一个空格。 -->					
 						<shiro:hasPermission name="lecture:create">
 							<button id="addBtn" type="button"
 								class="btn  btn-primary btn-flat margin" 
@@ -132,15 +128,18 @@
 							</button>
 							</shiro:hasPermission>
 							<shiro:hasPermission name="lecture:download">
+							<form id="downloadForm" action="lecture/download" method="get" >
 							<button id="downloadBtn" type="submit"
-								class="btn  btn-primary btn-flat margin" 
+								class="btn  btn-primary btn-flat margin2" 
 								 onclick="downloadItem()">
 								<span class="fa fa-fw fa-cloud-download" aria-hidden="true"></span> 下载
 							</button>
-							</shiro:hasPermission>
 							<input id="downloadIds" type="hidden" name="downloadIds[]">
 							</form>
+							</shiro:hasPermission>
+							
 					</div>
+					<div class="table-responsive">
 					<table class="table table-hover center">
 						<tr>
 							<th style="width: 10px"><label> <input id="allCheck"
@@ -202,6 +201,7 @@
 							</tr>
 						</c:forEach>
 					</table>
+					</div>
 				</div>
 				<!-- /.box-body -->
 				<!-- 分页 -->

@@ -213,7 +213,7 @@ public class UserController extends BaseController{
 		return "uploadSuccess";
 	}
 	@RequiresPermissions("user:download")
-	@RequestMapping(value="/download",method=RequestMethod.POST)
+	@RequestMapping(value="/download",method=RequestMethod.GET)
 	public ResponseEntity<byte[]> download(@RequestParam(value="downloadIds[]",required=false)Long[] downloadIds,HttpSession session) throws IOException{	
 		String realPath=session.getServletContext().getRealPath("/WEB-INF/upload");
 		String fileName="userExport"+System.currentTimeMillis()+".xls";

@@ -99,7 +99,7 @@
 					</div>
 					<div class="btn-group">
 						<!-- 注意，为了设置正确的内补（padding），务必在图标和文本之间添加一个空格。 -->
-						<form id="downloadForm" action="student/download" method="post">
+						
 							<shiro:hasPermission name="student:create">
 								<button id="addBtn" type="button"
 									class="btn  btn-primary btn-flat margin" onclick="addItem()">
@@ -120,16 +120,19 @@
 								</button>
 							</shiro:hasPermission>
 							<shiro:hasPermission name="student:download">
+							<form id="downloadForm" action="student/download" method="get">
 								<button id="downloadBtn" type="submit"
-									class="btn  btn-primary btn-flat margin"
+									class="btn  btn-primary btn-flat margin2"
 									onclick="downloadItem()">
 									<span class="fa fa-fw fa-cloud-download" aria-hidden="true"></span>
 									下载
 								</button>
+								<input id="downloadIds" type="hidden" name="downloadIds[]">
+							</form>
 							</shiro:hasPermission>
-							<input id="downloadIds" type="hidden" name="downloadIds[]">
-						</form>
+						
 					</div>
+				<div class="table-responsive">
 					<table class="table table-hover center">
 						<tr>
 							<th style="width: 10px"><label> <input id="allCheck"
@@ -170,6 +173,7 @@
 							</tr>
 						</c:forEach>
 					</table>
+					</div>
 				</div>
 				<!-- /.box-body -->
 				<!-- 分页 -->
