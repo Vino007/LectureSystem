@@ -15,33 +15,33 @@
 					<input name="id" value="${lecture.id}" hidden="true"/>
 					<div class="form-group">
 						<label for="title" class="control-label">讲座:</label> <input
-							type="text" class="form-control required" id="title" name="title"  value="${lecture.title}" >
+							type="text" class="form-control" id="title" name="title"  value="${lecture.title}" >
 					</div>					
 					<div class="form-group">
 						<label for="lecturer" class="control-label">主讲人:</label> <input
-							type="text" class="form-control required" id="lecturer" name="lecturer" value="${lecture.lecturer}">
+							type="text" class="form-control" id="lecturer" name="lecturer" value="${lecture.lecturer}">
 					</div>
 					<div class="form-group">
 						<label for="time" class="control-label">时间:</label> <input
-							type="text" class="form-control required" id="time" name="time" value="<fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss"
+							type="text" class="form-control" id="time" name="time" value="<fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss"
 										value="${lecture.time}"/>">
 					</div>
 					<div class="form-group">
 						<label for="address" class="control-label">地点:</label> <input
-							type="text" class="form-control required" id="address" name="address" value="${lecture.address}">
+							type="text" class="form-control" id="address" name="address" value="${lecture.address}">
 					</div>
 					<div class="form-group">
 						<label for="maxPeopleNum" class="control-label">允许人数:</label> <input
-							type="text" class="form-control required" id="maxPeopleNum" name="maxPeopleNum" value="${lecture.maxPeopleNum}">
+							type="text" class="form-control" id="maxPeopleNum" name="maxPeopleNum" value="${lecture.maxPeopleNum}">
 					</div>
 					<div class="form-group">
 						<label for="reserveStartTime" class="control-label">预约开始时间:</label> <input
-							type="text" class="form-control required" id="reserveStartTime" name="reserveStartTime" value="<fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss"
+							type="text" class="form-control" id="reserveStartTime" name="reserveStartTime" value="<fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss"
 										value="${lecture.reserveStartTime}"/>">
 					</div>
 					<div class="form-group">
 						<label for="description" class="control-label">详情描述:</label><textarea
-							class="form-control required" id="description"
+							class="form-control" id="description"
 							name="description" >${lecture.description}</textarea>
 					</div>
 					<div class="form-group">
@@ -70,6 +70,36 @@ $("#reserveStartTime").inputmask("datetime");
 /* 异步提交表单及更新content */
 $('#modal').on('shown.bs.modal', function(event) {
 	$("#updateForm").validate({
+		rules:{
+			 title:{ //格式：domId: 规则
+				 minlength:2,//无效
+				 maxlength:50,
+				 required:true						 	
+				 },
+			 lecturer:{ //格式：domId: 规则
+					 minlength:2,//无效
+					 maxlength:30,
+					 required:true							 	
+					 },
+			 time:"required",
+			 address:"required",
+			 reserveStartTime:"required",//预约开始时间要早于讲座时间
+			 description:"required",
+			 maxPeopleNum:{
+				 min:1,//无效
+				 max:999,
+				 required:true,
+				 digits:true	
+				 }
+		 },
+		 messages:{					
+			 maxPeopleNum:{
+				 max: jQuery.validator.format("请输入一个最大为{0} 的数"),
+				 min: jQuery.validator.format("请输入一个最小为{0} 的数"),						
+				 digits: "只能输入整数",
+				 reuqired:true
+			 }
+		 },
 		 submitHandler : function(form){			
 			 $.ajax({
 					async : false,

@@ -14,12 +14,12 @@
 
 					<input name="id" value="${role.id}" hidden="true"/>
 					<div class="form-group">
-						<label for="name" class="control-label">角色名:</label> <input
-							type="text" class="form-control" id="name" name="name" disabled="disabled" value="${role.name}" >
+						<label for="name" class="control-label">角色名:</label>${role.name}<%--  <input
+							type="text" class="form-control" id="name" name="name" disabled="disabled" value="${role.name}" > --%>
 					</div>					
 					<div class="form-group">
 						<label for="description" class="control-label">描述:</label> <input
-							type="text" class="form-control required" id="description" name="description" value="${role.description}">
+							type="text" class="form-control" id="description" name="description" value="${role.description}">
 					</div>
 					<div class="form-group">
 						<label for="available" class="control-label">状态:</label> 
@@ -45,7 +45,7 @@
 /* 异步提交表单及更新content */
 $('#modal').on('shown.bs.modal', function(event) {
 
-	$('#updateForm').validate({
+	$('#updateForm').validate({	
 		 submitHandler : function(form){
 			$.ajax({
 				async : false,

@@ -68,7 +68,7 @@ public class StudentServiceImpl extends AbstractBaseServiceImpl<Student, Long> i
 			if (studentRepository.findByUsername(student.getUsername()) != null)
 				throw new StudentDuplicateException();
 			if (student.getPassword() == null) {
-				student.setPassword(Constants.DEFAULT_PASSWORD);
+				student.setPassword(Constants.DEFAULT_PASSWORD);//ÉèÖÃÄ¬ÈÏÃÜÂë
 			}
 			// ¼ÓÃÜÃÜÂë
 			passwordHelper.encryptStudentPassword(student);

@@ -11,8 +11,8 @@
 			<div class="modal-body">
 					
 					<div class="form-group">
-						<label for="attendancer" class="control-label"><font color="red">*</font>学号:</label> <input
-							type="text" class="form-control required " id="username"
+						<label for="username" class="control-label"><font color="red">*</font>学号:</label> <input
+							type="text" class="form-control" id="username"
 							name="username">
 					</div>	
 					<input type="text" name="lectureId" value="${lectureId}" hidden="true">							
@@ -27,6 +27,14 @@
 $('#modal').on('shown.bs.modal', function(event) {	
 			$("#title").focus();
 			 $("#addForm").validate({
+				 rules:{
+					 username:{ //格式：domId: 规则
+						 minlength:14,//无效
+						 maxlength:14,
+						 required:true,	
+						 digits:true
+						 }
+				 },
 				 submitHandler : function(form){
 			           	$.ajax({
 							async : false,

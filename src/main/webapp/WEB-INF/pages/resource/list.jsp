@@ -97,7 +97,7 @@
 					</div>
 					<div class="form-group">
 						<label for="permission" class="control-label"><font color="red">*</font>权限字符串:</label> <input
-							type="text" class="form-control " id="permission" name="permission">
+							type="text" class="form-control " id="permission" name="permission" placeholder="如 user:create">
 					</div>
 					<div class="form-group">
 						<label for="type" class="control-label"><font color="red">*</font>资源类型:</label> 
@@ -178,29 +178,37 @@
 		});
 		
 	});
-		
+	
+	
  	/*modal框事件监听 详情：http://v3.bootcss.com/javascript/#modals-events */
 	$('#addModal').on('shown.bs.modal', function(event) {	
 		
 			$("#name").focus();
 			 $("#addForm").validate({
 				 rules:{
-					 name:"required",
-					 permission:"required",
+					 name:{ //格式：domId: 规则
+						 minlength:2,//无效
+						 maxlength:30,
+						 required:true,							 	
+						 },
+					 type:"required",					
+					 permission:{
+						 required:true,
+						 isPermission:true
+					 },//正则来校验，校验方法在additional-method.js里
 					 priority:{
 						 min:1,//无效
-						 max:10,
+						 max:999,
 						 required:true,
 						 digits:true	
 						 }
 				 },
-				 messages:{
-					 name:"请输入名字",
+				 messages:{					
 					 priority:{
-						 max: jQuery.validator.format("请输入一个最大为{0} 的值"),
-						 min: jQuery.validator.format("请输入一个最小为{0} 的值"),
-						 required: "必选字段",
-						 digits: "只能输入整数"
+						 max: jQuery.validator.format("请输入一个最大为{0} 的数"),
+						 min: jQuery.validator.format("请输入一个最小为{0} 的数"),						
+						 digits: "只能输入整数",
+						 reuqired:true
 					 }
 				 },
 				 

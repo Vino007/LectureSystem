@@ -13,16 +13,16 @@
 				
 					<div class="form-group">
 						<label for="username" class="control-label"><font color="red">*</font>用户名:</label> <input
-							type="text" class="form-control required " id="username"
+							type="text" class="form-control " id="username"
 							name="username">
 					</div>
 					<div class="form-group">
 						<label for="password" class="control-label"><font color="red">*</font>密码:</label> <input
-							class="form-control required" id="password" name="password">
+							class="form-control" id="password" name="password">
 					</div>
 					<div class="form-group">
 						<label for="userAlias" class="control-label"><font color="red">*</font>别名:</label> <input
-							type="text" class="form-control required" id="userAlias"
+							type="text" class="form-control" id="userAlias"
 							name="userAlias">
 					</div>
 				
@@ -35,8 +35,34 @@
 <script>
 /*modal框事件监听 详情：http://v3.bootcss.com/javascript/#modals-events */
 $('#modal').on('shown.bs.modal', function(event) {	
-			$("#username").focus();
+			$("#username").focus();//将焦点放在用户名输入上
 			 $("#addForm").validate({
+					 rules:{
+						 username:{ //格式：domId: 规则
+							 minlength:2,//无效
+							 maxlength:30,
+							 required:true,							 	
+							 },
+						 password:{ //格式：domId: 规则
+							 minlength:6,//无效
+							 maxlength:30,
+							 required:true,							 	
+							 },
+						 userAlias:{ //格式：domId: 规则
+							 minlength:2,//无效
+							 maxlength:30,
+							 required:true,							 	
+							 }
+					 },
+					 messages:{
+						 username:{
+							 required:"请输入用户名",
+							 minlength:jQuery.validator.format("至少需要{0}字符"),
+							 maxlength:jQuery.validator.format("不能超过{0}字符")
+							 
+						 }
+						
+					 },
 				 submitHandler : function(form){
 			           	$.ajax({
 							async : false,
@@ -58,45 +84,5 @@ $('#modal').on('shown.bs.modal', function(event) {
 						});
 			        }    
 			    });
-	});
-	/* js校验 */
-	/* 
-	$().ready(function() {
- $("#signupForm").validate({
-        rules: {
-   firstname: "required",
-   email: {
-    required: true,
-    email: true
-   },
-   password: {
-    required: true,
-    minlength: 5
-   },
-   confirm_password: {
-    required: true,
-    minlength: 5,
-    equalTo: "#password"
-   }
-  },
-        messages: {
-   firstname: "请输入姓名",
-   email: {
-    required: "请输入Email地址",
-    email: "请输入正确的email地址"
-   },
-   password: {
-    required: "请输入密码",
-    minlength: jQuery.format("密码不能小于{0}个字 符")
-   },
-   confirm_password: {
-    required: "请输入确认密码",
-    minlength: "确认密码不能小于5个字符",
-    equalTo: "两次输入密码不一致不一致"
-   }
-  }
-    });
-});
-	
-	*/
+	});	
 </script>

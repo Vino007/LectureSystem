@@ -12,7 +12,7 @@ import com.vino.scaffold.service.base.BaseService;
 import com.vino.scaffold.shiro.entity.User;
 
 public interface LectureService extends  BaseService<Lecture, Long>{
-	void update(Lecture Lecture);
+	void update(Lecture Lecture);//update与表单需要更新的字段对应，若不判断非空的话，会导致原因有数据被覆盖成无数据
 	Page<Lecture> findLectureByCondition(Map<String, Object> searchParams,
 			Pageable pageable);
 	//Lecture findByName(String name);

@@ -14,21 +14,20 @@
 
 					<input name="id" value="${student.id}" hidden="true"/>
 					<div class="form-group">
-						<label for="username" class="control-label">学号:</label> <input
-							type="text" class="form-control" id="username" name="username" disabled="disabled"  value="${student.username}" >
+						<label for="username" class="control-label">学号:</label>${student.username}<%--  <input
+							type="text" class="form-control" id="username" name="username" disabled="disabled"  value="${student.username}" > --%>
 					</div>					
 					<div class="form-group">
 						<label for="name" class="control-label">姓名:</label> <input
-							type="text" class="form-control required" id="name" name="name" value="${student.name}">
-					</div>
-					
+							type="text" class="form-control" id="name" name="name" value="${student.name}">
+					</div>					
 					<div class="form-group">
 						<label for="major" class="control-label">专业:</label> <input
-							type="text" class="form-control required" id="major" name="major" value="${student.major}">
+							type="text" class="form-control" id="major" name="major" value="${student.major}">
 					</div>
 					<div class="form-group">
 						<label for="grade" class="control-label">年级:</label> <input
-							type="text" class="form-control required" id="grade" name="grade" value="${student.grade}">
+							type="text" class="form-control" id="grade" name="grade" value="${student.grade}">
 					</div>
 					<div class="form-group">
 						<label for="birthday" class="control-label">生日:</label> <input
@@ -45,7 +44,32 @@
 /* 异步提交表单及更新content */
 $('#modal').on('shown.bs.modal', function(event) {
 	$("#updateForm").validate({
-		 submitHandler : function(form){			
+		 rules:{			
+			 name:{ //格式：domId: 规则
+				 minlength:2,//无效
+				 maxlength:30,
+				 required:true						 	
+				 },
+			 major:{ //格式：domId: 规则
+				 minlength:2,//无效
+				 maxlength:50,
+				 required:true							 	
+				 },
+			 grade:{ //格式：2010
+				 range:[2010,2025],						
+				 required:true,
+				 digits:true
+				 }				 					 					 
+		 },
+		 messages:{					
+			 grade:{
+				 range: jQuery.validator.format("请输入年级,介于 {0} 和 {1} 之间"),					
+				 digits: "只能输入整数",
+				 reuqired:true
+			 }
+		 },
+		 submitHandler : function(form){
+			 
 			 $.ajax({
 					async : false,
 					cache : false,

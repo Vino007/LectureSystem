@@ -11,38 +11,38 @@
 			<div class="modal-body">
 					<div class="form-group">
 						<label for="title" class="control-label"><font color="red">*</font>标题:</label> <input
-							type="text" class="form-control required " id="title"
+							type="text" class="form-control " id="title"
 							name="title">
 					</div>
 					<div class="form-group">
 						<label for="lecturer" class="control-label"><font color="red">*</font>主讲人:</label> <input
-							type="text" class="form-control required " id="lecturer"
+							type="text" class="form-control " id="lecturer"
 							name="lecturer">
 					</div>
 					<div class="form-group">
 						<label for="time" class="control-label"><font color="red">*</font>时间:</label> <input
-							type="text" class="form-control required " id="time"
+							type="text" class="form-control " id="time"
 							name="time">
 					</div>
 					<div class="form-group">
 						<label for="reserveStartTime" class="control-label"><font color="red">*</font>预约开始时间:</label> <input
-							type="text" class="form-control required" id="reserveStartTime"
+							type="text" class="form-control" id="reserveStartTime"
 							name="reserveStartTime">
 					</div>
 					<div class="form-group">
 						<label for="address" class="control-label"><font color="red">*</font>地点:</label> <input
-							type="text" class="form-control required " id="address"
+							type="text" class="form-control" id="address"
 							name="address">
 					</div>
 					<div class="form-group">
 						<label for="maxPeopleNum" class="control-label"><font color="red">*</font>允许人数:</label> <input
-							type="text" class="form-control required " id="maxPeopleNum"
+							type="text" class="form-control" id="maxPeopleNum"
 							name="maxPeopleNum">
 					</div>
 					
 					<div class="form-group">
 						<label for="description" class="control-label"><font color="red">*</font>详情介绍:</label> <textarea
-							class="form-control required" id="description"
+							class="form-control" id="description"
 							name="description"></textarea>
 					</div>
 						
@@ -58,6 +58,36 @@
 $('#modal').on('shown.bs.modal', function(event) {	
 			$("#title").focus();
 			 $("#addForm").validate({
+				 rules:{
+					 title:{ //格式：domId: 规则
+						 minlength:2,//无效
+						 maxlength:50,
+						 required:true							 	
+						 },
+					 lecturer:{ //格式：domId: 规则
+							 minlength:2,//无效
+							 maxlength:30,
+							 required:true						 	
+							 },
+					 time:"required",
+					 address:"required",
+					 reserveStartTime:"required",//预约开始时间要早于讲座时间
+					 description:"required",
+					 maxPeopleNum:{
+						 min:1,//无效
+						 max:999,
+						 required:true,
+						 digits:true	
+						 }
+				 },
+				 messages:{					
+					 maxPeopleNum:{
+						 max: jQuery.validator.format("请输入一个最大为{0} 的数"),
+						 min: jQuery.validator.format("请输入一个最小为{0} 的数"),						
+						 digits: "只能输入整数"
+						 reuqired:true
+					 }
+				 },
 				 submitHandler : function(form){
 			           	$.ajax({
 							async : false,

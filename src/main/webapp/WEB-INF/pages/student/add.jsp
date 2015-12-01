@@ -41,6 +41,36 @@
 $('#modal').on('shown.bs.modal', function(event) {	
 			$("#title").focus();
 			 $("#addForm").validate({
+				 rules:{
+					 username:{ //格式：domId: 规则
+						 minlength:14,//无效
+						 maxlength:14,
+						 required:true,	
+						 digits:true
+						 },
+					 name:{ //格式：domId: 规则
+						 minlength:2,//无效
+						 maxlength:30,
+						 required:true						 	
+						 },
+					 major:{ //格式：domId: 规则
+						 minlength:2,//无效
+						 maxlength:50,
+						 required:true							 	
+						 },
+					 grade:{ //格式：2010
+						 range:[2010,2025],						
+						 required:true,
+						 digits:true
+						 }				 					 					 
+				 },
+				 messages:{					
+					 grade:{
+						 range: jQuery.validator.format("请输入年级,介于 {0} 和 {1} 之间"),					
+						 digits: "只能输入整数",
+						 required:true
+					 }
+				 },
 				 submitHandler : function(form){
 			           	$.ajax({
 							async : false,

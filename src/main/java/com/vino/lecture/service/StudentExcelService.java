@@ -39,7 +39,6 @@ public class StudentExcelService {
 	}
 	public void saveToExcel(String path,Long...ids) throws FileNotFoundException{
 		List<Student> students=studentService.find(ids);
-		System.out.println("´´½¨excel"+students);
 		File file=new File(path);
 		createExcel(new FileOutputStream(file), students);
 	}

@@ -48,6 +48,30 @@
 <script>
 	/* 异步提交表单及更新content */
 	$("#updateForm").validate({
+		 rules:{
+			 oldPassword:{
+				 required:true,
+				 minlength:4,
+				 maxlength:30,				
+			 },	
+			 newPassword:{
+				 required:true,
+				 minlength:4,
+				 maxlength:30,				
+			 },			
+			 newPassword2:{
+				 required:true,
+				 minlength:4,
+				 maxlength:30,
+				 equalTo:"#newPassword"
+			 }
+				 
+		 },
+		 messages:{		//没有设置messages的按照默认的提示	 			
+		 	newPassword2:{
+		 		 equalTo: "两次输入密码不一致"
+		 	}
+		 },
 		submitHandler : function(form) {
 			$.ajax({
 				async : false,

@@ -13,12 +13,12 @@
 
 					<input name="id" value="${user.id}" hidden="true"/>
 					<div class="form-group">
-						<label for="username" class="control-label">用户名:</label> <input
-							type="text" class="form-control " id="username" name="username" disabled="disabled" value="${user.username}" >
+						<label for="username" class="control-label">用户名:</label> ${user.username}<%-- <input
+							type="text" class="form-control " id="username" name="username" disabled="disabled" value="${user.username}" > --%>
 					</div>					
 					<div class="form-group">
 						<label for="userAlias" class="control-label">别名:</label> <input
-							type="text" class="form-control required" id="userAlias" name="userAlias" value="${user.userAlias}">
+							type="text" class="form-control" id="userAlias" name="userAlias" value="${user.userAlias}">
 					</div>
 					<div class="form-group">
 						<label for="locked" class="control-label">状态:</label> 
@@ -44,6 +44,16 @@
 /* 异步提交表单及更新content */
 $('#modal').on('shown.bs.modal', function(event) {
 	$("#updateForm").validate({
+		rules:{			 
+			 userAlias:{ //格式：domId: 规则
+				 minlength:2,//无效
+				 maxlength:30,
+				 required:true,							 	
+				 }
+		 },
+		 messages:{
+			
+		 },
 		 submitHandler : function(form){			
 			 $.ajax({
 					async : false,

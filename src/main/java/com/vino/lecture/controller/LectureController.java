@@ -174,7 +174,7 @@ public class LectureController extends BaseController {
 	public ResponseEntity<byte[]> download(@RequestParam(value="downloadIds[]",required=false)Long[] downloadIds,HttpSession session) throws IOException{
 		String realPath=session.getServletContext().getRealPath("/WEB-INF/upload");
 		String fileName="lectureExport"+System.currentTimeMillis()+".xls";
-		String enFileName=URLEncoder.encode("讲座列表"+System.currentTimeMillis()+".xls", "utf-8");//使用utf8编码后，中文字符才能在http中传输
+		String enFileName=URLEncoder.encode("讲座列表"+System.currentTimeMillis()+".xls", "utf-8");//使用utf8编码后，中文字符才能在http中传输，谷歌可正常显示中文，火狐不行，斯巴达则不能下载
 		
 		lectureExcelService.saveToExcel(realPath+"\\"+fileName, downloadIds);
 		HttpHeaders headers = new HttpHeaders();    

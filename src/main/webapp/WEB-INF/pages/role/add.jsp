@@ -13,11 +13,11 @@
 
 		<div class="form-group">
 			<label for="name" class="control-label"><font color="red">*</font>角色名:</label> <input
-				type="text" class="form-control required"  id="name" name="name">
+				type="text" class="form-control"  id="name" name="name">
 		</div>
 		<div class="form-group">
 			<label for="description" class="control-label"><font color="red">*</font>描述:</label> <input
-				type="text" class="form-control required" id="description" name="description">
+				type="text" class="form-control" id="description" name="description">
 		</div>
 
 	</div>
@@ -31,6 +31,16 @@
 	$('#modal').on('shown.bs.modal', function(event) {
 		$('#name').focus();
 		$('#addForm').validate({
+			 rules:{
+				 name:{ //格式：domId: 规则
+					 minlength:2,//无效
+					 maxlength:30,
+					 required:true,							 	
+					 }				 
+			 },
+			 messages:{
+								
+			 },
 			 submitHandler : function(form){
 				$.ajax({
 					async : false,

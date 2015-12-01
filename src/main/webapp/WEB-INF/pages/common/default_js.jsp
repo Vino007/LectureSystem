@@ -5,7 +5,7 @@
 	<script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/jquery.validate.min.js"></script>
 	<script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/additional-methods.min.js"></script>
+	src="<%=request.getContextPath()%>/resources/js/additional-methods.js"></script>
 	
 	<script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/messages_zh.js"></script>
