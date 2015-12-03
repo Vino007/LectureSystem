@@ -1,2 +1,5 @@
-/com/
-/javaEEScaffold/
+/database.properties
+/snippet/
+/config.xml
+/config/
+/druid-config.xml

@@ -65,9 +65,9 @@ $('#modal').on('shown.bs.modal', function(event) {
 						 required:true							 	
 						 },
 					 lecturer:{ //格式：domId: 规则
-							 minlength:2,//无效
-							 maxlength:30,
-							 required:true						 	
+						 minlength:2,//无效
+						 maxlength:30,
+						 required:true						 	
 							 },
 					 time:"required",
 					 address:"required",
@@ -85,7 +85,7 @@ $('#modal').on('shown.bs.modal', function(event) {
 						 max: jQuery.validator.format("请输入一个最大为{0} 的数"),
 						 min: jQuery.validator.format("请输入一个最小为{0} 的数"),						
 						 digits: "只能输入整数"
-						 reuqired:true
+					
 					 }
 				 },
 				 submitHandler : function(form){

@@ -5,6 +5,14 @@
         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
         version="3.0"
         metadata-complete="false">
+    <error-page>
+       <error-code>404</error-code>
+       <location>/static/404.html</location>
+    </error-page>
+    <error-page>
+       <error-code>500</error-code>                             
+       <location>/static/500.html</location>
+    </error-page>
 
     <!-- Spring配置文件开始  -->
     <context-param>
